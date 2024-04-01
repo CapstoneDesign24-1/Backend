@@ -50,4 +50,16 @@ public class Member extends BaseEntity {
         this.role = MemberRole.General;
     }
 
+    public MemberResponseDto toResponse() {
+        return MemberResponseDto.builder()
+                .handle(this.getHandle())
+                .bio(this.getBio())
+                .solvedCount(this.getSolvedCount())
+                .tier(this.getTier())
+                .rating(this.getRating())
+                .ratingByProblemsSum(this.getRatingByProblemsSum())
+                .ratingBySolvedCount(this.getRatingBySolvedCount())
+                .build();
+    }
+
 }
