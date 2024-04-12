@@ -3,12 +3,13 @@ package com.boj.guidance.domain;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -20,9 +21,11 @@ public class BaseEntity {
     private UUID id;
 
     @CreatedDate
-    private LocalDateTime created_at;
+    private String created_at;
 
-    @LastModifiedDate
-    private LocalDateTime modified_at;
+    @PrePersist
+    public void onPrePersist() {
+        this.created_at = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 
 }
