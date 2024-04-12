@@ -1,6 +1,5 @@
 package com.boj.guidance.service.implement;
 
-import com.boj.guidance.config.PasswordEncoder;
 import com.boj.guidance.domain.Member;
 import com.boj.guidance.dto.MemberJoinRequestDto;
 import com.boj.guidance.dto.MemberLoginRequestDto;
@@ -9,6 +8,7 @@ import com.boj.guidance.repository.MemberRepository;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ResponseCode;
 import com.boj.guidance.util.exception.UserException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,17 +19,11 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final RestTemplate restTemplate;
-    private final PasswordEncoder passwordEncoder;
-
-    public MemberServiceImpl(MemberRepository memberRepository, RestTemplate restTemplate, PasswordEncoder passwordEncoder) {
-        this.memberRepository = memberRepository;
-        this.restTemplate = restTemplate;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public MemberResponseDto join(MemberJoinRequestDto dto) {

@@ -7,29 +7,25 @@ import com.boj.guidance.dto.MemberResponseDto;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ApiResponse;
 import com.boj.guidance.util.api.ResponseCode;
-import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberController(MemberService memberService, PasswordEncoder passwordEncoder) {
-        this.memberService = memberService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     /**
      * 사용자 회원가입 기능
      * @param dto
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/join")
+    @PostMapping("/join")
     public ApiResponse<MemberResponseDto> join(@RequestBody MemberJoinRequestDto dto) throws Exception {
         log.info("회원가입 API 호출");
         String encoded = passwordEncoder.encrypt(dto.getLogin_password());
@@ -52,7 +48,7 @@ public class MemberController {
     /**
      * 사용자 로그인 기능
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    @PostMapping("/login")
     public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto dto) throws Exception {
         log.info("로그인 API 호출");
         String encoded = passwordEncoder.encrypt(dto.getLogin_password());
@@ -66,17 +62,10 @@ public class MemberController {
     /**
      * 백준 사용자 인증하기
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/auth")
-    public ApiResponse<MemberResponseDto> authorize() {
+    @PostMapping("/auth")
+    public MemberResponseDto authorize() {
         log.info("인증 API 호출");
-        MemberResponseDto authorized = memberService.authorize();
-        return ApiResponse.success(ResponseCode.USER_AUTH_SUCCESS.getMessage(), authorized);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login.do";
+        return memberService.authorize();
     }
 
 }
