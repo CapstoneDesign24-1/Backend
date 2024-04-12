@@ -1,73 +1,48 @@
 package com.boj.guidance.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MemberTierUtil {
 
+    private static final Map<Long, String> tierMap = new HashMap<>();
+
+    static {
+        tierMap.put(1L, "Bronze 5");
+        tierMap.put(2L, "Bronze 4");
+        tierMap.put(3L, "Bronze 3");
+        tierMap.put(4L, "Bronze 2");
+        tierMap.put(5L, "Bronze 1");
+        tierMap.put(6L, "Silver 5");
+        tierMap.put(7L, "Silver 4");
+        tierMap.put(8L, "Silver 3");
+        tierMap.put(9L, "Silver 2");
+        tierMap.put(10L, "Silver 1");
+        tierMap.put(11L, "Gold 5");
+        tierMap.put(12L, "Gold 4");
+        tierMap.put(13L, "Gold 3");
+        tierMap.put(14L, "Gold 2");
+        tierMap.put(15L, "Gold 1");
+        tierMap.put(16L, "Platinum 5");
+        tierMap.put(17L, "Platinum 4");
+        tierMap.put(18L, "Platinum 3");
+        tierMap.put(19L, "Platinum 2");
+        tierMap.put(20L, "Platinum 1");
+        tierMap.put(21L, "Diamond 5");
+        tierMap.put(22L, "Diamond 4");
+        tierMap.put(23L, "Diamond 3");
+        tierMap.put(24L, "Diamond 2");
+        tierMap.put(25L, "Diamond 1");
+        tierMap.put(26L, "Ruby 5");
+        tierMap.put(27L, "Ruby 4");
+        tierMap.put(28L, "Ruby 3");
+        tierMap.put(29L, "Ruby 2");
+        tierMap.put(30L, "Ruby 1");
+        tierMap.put(31L, "Master");
+    }
+
     public static String checkTier(Long tier) {
-        if (tier == 1) {
-            return "Bronze 5";
-        } else if (tier == 2) {
-            return "Bronze 4";
-        } else if (tier == 3) {
-            return "Bronze 3";
-        } else if (tier == 4) {
-            return "Bronze 2";
-        } else if (tier == 5) {
-            return "Bronze 1";
-        } else if (tier == 6) {
-            return "Silver 5";
-        } else if (tier == 7) {
-            return "Silver 4";
-        } else if (tier == 8) {
-            return "Silver 3";
-        } else if (tier == 9) {
-            return "Silver 2";
-        } else if (tier == 10) {
-            return "Silver 1";
-        } else if (tier == 11) {
-            return "Gold 5";
-        } else if (tier == 12) {
-            return "Gold 4";
-        } else if (tier == 13) {
-            return "Gold 3";
-        } else if (tier == 14) {
-            return "Gold 2";
-        } else if (tier == 15) {
-            return "Gold 1";
-        } else if (tier == 16) {
-            return "Platinum 5";
-        } else if (tier == 17) {
-            return "Platinum 4";
-        } else if (tier == 18) {
-            return "Platinum 3";
-        } else if (tier == 19) {
-            return "Platinum 2";
-        } else if (tier == 20) {
-            return "Platinum 1";
-        } else if (tier == 21) {
-            return "Diamond 5";
-        } else if (tier == 22) {
-            return "Diamond 4";
-        } else if (tier == 23) {
-            return "Diamond 3";
-        } else if (tier == 24) {
-            return "Diamond 2";
-        } else if (tier == 25) {
-            return "Diamond 1";
-        } else if (tier == 26) {
-            return "Ruby 5";
-        } else if (tier == 27) {
-            return "Ruby 4";
-        } else if (tier == 28) {
-            return "Ruby 3";
-        } else if (tier == 29) {
-            return "Ruby 2";
-        } else if (tier == 30) {
-            return "Ruby 1";
-        } else if (tier == 31) {
-            return "Master";
-        } else {
-            return "None";
-        }
+        return tierMap.getOrDefault(tier, "None");
     }
 
 }
