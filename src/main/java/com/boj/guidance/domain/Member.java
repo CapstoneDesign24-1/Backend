@@ -18,11 +18,11 @@ public class Member extends BaseEntity {
     private String login_id;            // 로그인 id
     private String login_password;      // 로그인 password
     private String bio;                 // 자기소개
-    private Long solvedCount;           // 푼 문제 수
+    private Long solved_count;           // 푼 문제 수
     private Long tier;                  // 티어 (1-31)
     private Long rating;                // 레이팅
-    private Long ratingByProblemsSum;   // 푼 문제의 난이도 합으로 계산한 레이팅
-    private Long ratingBySolvedCount;   // 푼 문제 수로 계산한 레이팅
+    private Long rating_by_problems_sum;   // 푼 문제의 난이도 합으로 계산한 레이팅
+    private Long rating_by_solved_count;   // 푼 문제 수로 계산한 레이팅
     @Enumerated(EnumType.STRING)
     private MemberRole role;            // 사용자 역할
 
@@ -32,21 +32,21 @@ public class Member extends BaseEntity {
             String login_id,
             String login_password,
             String bio,
-            Long solvedCount,
+            Long solved_count,
             Long tier,
             Long rating,
-            Long ratingByProblemsSum,
-            Long ratingBySolvedCount
+            Long rating_by_problems_sum,
+            Long rating_by_solved_count
     ) {
         this.handle = handle;
         this.login_id = login_id;
         this.login_password = login_password;
         this.bio = bio;
-        this.solvedCount = solvedCount;
+        this.solved_count = solved_count;
         this.tier = tier;
         this.rating = rating;
-        this.ratingByProblemsSum = ratingByProblemsSum;
-        this.ratingBySolvedCount = ratingBySolvedCount;
+        this.rating_by_problems_sum = rating_by_problems_sum;
+        this.rating_by_solved_count = rating_by_solved_count;
         this.role = MemberRole.General;
     }
 
@@ -54,11 +54,11 @@ public class Member extends BaseEntity {
         return MemberResponseDto.builder()
                 .handle(this.getHandle())
                 .bio(this.getBio())
-                .solvedCount(this.getSolvedCount())
+                .solved_count(this.getSolved_count())
                 .tier(this.getTier())
                 .rating(this.getRating())
-                .ratingByProblemsSum(this.getRatingByProblemsSum())
-                .ratingBySolvedCount(this.getRatingBySolvedCount())
+                .rating_by_problems_sum(this.getRating_by_problems_sum())
+                .rating_by_solved_count(this.getRating_by_solved_count())
                 .build();
     }
 

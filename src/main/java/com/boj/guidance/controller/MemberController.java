@@ -1,17 +1,19 @@
 package com.boj.guidance.controller;
 
+import com.boj.guidance.config.PasswordEncoder;
+import com.boj.guidance.dto.MemberJoinRequestDto;
 import com.boj.guidance.dto.MemberLoginRequestDto;
 import com.boj.guidance.dto.MemberResponseDto;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ApiResponse;
 import com.boj.guidance.util.api.ResponseCode;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -27,13 +29,21 @@ public class MemberController {
      * @param dto
      * @return
      */
-    @PostMapping("/join")
-    public ApiResponse<MemberResponseDto> join(@RequestBody MemberLoginRequestDto dto) {
-        String encoded = passwordEncoder.encode(dto.getLogin_password());
+    @RequestMapping(method = RequestMethod.POST, value = "/join")
+    public ApiResponse<MemberResponseDto> join(@RequestBody MemberJoinRequestDto dto) throws Exception {
+        log.info("회원가입 API 호출");
+        String encoded = passwordEncoder.encrypt(dto.getLogin_password());
         MemberResponseDto joined = memberService.join(
-                MemberLoginRequestDto.builder()
+                MemberJoinRequestDto.builder()
+                        .handle(dto.getHandle())
                         .login_id(dto.getLogin_id())
                         .login_password(encoded)
+                        .bio(dto.getBio())
+                        .solved_count(dto.getSolved_count())
+                        .tier(dto.getTier())
+                        .rating(dto.getRating())
+                        .rating_by_problems_sum(dto.getRating_by_problems_sum())
+                        .rating_by_solved_count(dto.getRating_by_solved_count())
                         .build()
         );
         return ApiResponse.success(ResponseCode.USER_JOIN_SUCCESS.getMessage(), joined);
@@ -41,13 +51,32 @@ public class MemberController {
 
     /**
      * 사용자 로그인 기능
-     * @param dto
-     * @return
      */
-    @GetMapping("/login")
-    public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto dto) {
-        MemberResponseDto login = memberService.login(dto);
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto dto) throws Exception {
+        log.info("로그인 API 호출");
+        String encoded = passwordEncoder.encrypt(dto.getLogin_password());
+        MemberResponseDto login = memberService.login(MemberLoginRequestDto.builder()
+                .login_id(dto.getLogin_id())
+                .login_password(encoded)
+                .build());
         return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS.getMessage(), login);
+    }
+
+    /**
+     * 백준 사용자 인증하기
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/auth")
+    public ApiResponse<MemberResponseDto> authorize() {
+        log.info("인증 API 호출");
+        MemberResponseDto authorized = memberService.authorize();
+        return ApiResponse.success(ResponseCode.USER_AUTH_SUCCESS.getMessage(), authorized);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login.do";
     }
 
 }

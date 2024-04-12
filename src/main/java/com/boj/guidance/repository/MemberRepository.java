@@ -12,6 +12,9 @@ import java.util.UUID;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, UUID> {
 
+    @Override
+    Optional<Member> findById(UUID uuid);
+
     @Query("select m " +
             "from Member m " +
             "where m.login_id = :id and m.login_password = :password")
