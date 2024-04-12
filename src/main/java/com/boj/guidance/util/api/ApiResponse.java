@@ -2,10 +2,9 @@ package com.boj.guidance.util.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
 
 @Getter
-@RequiredArgsConstructor
 public class ApiResponse<T> {
 
     private final Integer code;
@@ -21,6 +20,10 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> success(String message, T result) {
         return new ApiResponse<T>(200, message, result);
+    }
+
+    public static <T> ApiResponse<T> fail(ResponseCode code, T result) {
+        return new ApiResponse<T>(code.getCode(), code.getMessage(), result);
     }
 
 }
