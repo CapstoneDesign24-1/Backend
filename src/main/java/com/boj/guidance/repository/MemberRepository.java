@@ -7,17 +7,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, UUID> {
+public interface MemberRepository extends JpaRepository<Member, String> {
 
-    @Override
-    Optional<Member> findById(UUID uuid);
+    @Query(
+            "SELECT m " +
+            "FROM Member m " +
+            "WHERE m.loginId = :id")
+    Optional<Member> findById(@Param("id") String loginId);
 
-    @Query("select m " +
-            "from Member m " +
-            "where m.login_id = :id and m.login_password = :password")
-    Optional<Member> findMemberByLogin_idAndLogin_password(@Param("id") String login_id, @Param("password") String login_password);
+    @Query(
+            "SELECT m " +
+            "FROM Member m " +
+            "WHERE m.loginId = :id AND m.loginPassword = :password")
+    Optional<Member> findMemberByLoginIdAndLoginPassword(@Param("id") String loginId, @Param("password") String loginPassword);
 
 }
