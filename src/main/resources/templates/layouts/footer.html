@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+</head>
+
+<style>
+    body {
+        margin: 0; /* body 요소의 마진을 0으로 설정 */
+    }
+    header {
+        background-color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        z-index: 999;
+    }
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px;
+        background-color: #f0f0f0;
+    }
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+    }
+    .contact-info span {
+        margin-bottom: 10px;
+    }
+    .footer img {
+        width: 150px; /* 이미지의 너비를 조절할 수 있습니다. */
+    }
+</style>
+
+<footer>
+
+    <div class="contact-info">
+        <span>Contact.</span>
+        <span>phone | 010-1234-5678</span>
+        <span>e-mail | example@example.com</span>
+    </div>
+    <img src="https://dongne.s3.ap-northeast-2.amazonaws.com/%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png" alt="Footer Image">
+
+</footer>
+
+</html>

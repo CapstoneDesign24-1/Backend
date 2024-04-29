@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,88 +71,10 @@
 	}
 </style>
 
-
-<style>
-	/*
-	 *HEADER STYLE !!!!!
-	 */
-	body {
-		margin: 0; /* body 요소의 마진을 0으로 설정 */
-	}
-	header {
-		background-color: white;
-		padding: 15px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		position: fixed;
-		width: 100%;
-		z-index: 999;
-	}
-	.header-item {
-		color: black;
-		text-decoration: none;
-		margin: 0 10px;
-		padding: 10px;
-	}
-	.header-item:hover {
-		background-color: rgba(255, 255, 255, 0.2);
-		border-radius: 5px;
-	}
-	.header-image {
-		opacity: 1; /* 이미지에 투명도 적용하지 않음 */
-	}
-	/* 각 메뉴 아이템에 오른쪽 마진 추가 */
-	.header-item {
-		margin-right: 30px;
-	}
-
-	/* 로그인 버튼은 마진을 추가하지 않음 */
-	.header-item:last-child {
-		margin-right: 70px;
-		margin-left:  30px;
-	}
-	.divider {
-		margin: 0 5px; /* 구분선의 좌우 여백 설정 */
-		border-left: 1px solid #000000; /* 구분선 스타일 설정 */
-		height: 20px; /* 구분선의 높이 설정 */
-	}
-
-	.footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 30px;
-		background-color: #f0f0f0;
-	}
-	.contact-info {
-		display: flex;
-		flex-direction: column;
-	}
-	.contact-info span {
-		margin-bottom: 10px;
-	}
-	.footer img {
-		width: 150px; /* 이미지의 너비를 조절할 수 있습니다. */
-	}
-</style>
-
 <body>
-<header>
-	<div>
-		<a href="/home">
-			<img src="https://dongne.s3.ap-northeast-2.amazonaws.com/%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png" alt="Image" class="header-image" style="width: 150px; height: 40px;">
-		</a>
-	</div>
-	<div>
-		<a href="#" class="header-item" style="background-color: rgba(0,0,0,0);">스터디</a>
-		<a href="#" class="header-item" style="background-color: rgba(0,0,0,0);">문제 추천</a>
-		<a href="#" class="header-item" style="background-color: rgba(0,0,0,0);">코드 분석</a>
-		<a href="#" class="header-item" style="background-color: rgba(0,0,0,0);">커뮤니티</a>
-		<span class="divider"></span>
-		<a href="#" class="header-item" style="background-color: rgba(0,0,0,0);">로그인</a>
-	</div>
-</header>
+
+<div th:replace="~{layouts/header.html :: header}"></div>
+
 <div id="login_wrap">
 	<div id="login_box">
 		<div class="login_con">
@@ -164,19 +86,17 @@
 						<form id="login" onsubmit="return false;" autocomplete="off">
 							<script>
 								function login() {
-									const login_id = document.getElementById("id").value;
-									const login_password = document.getElementById("password").value;
+									const loginId = document.getElementById("id").value;
+									const loginPassword = document.getElementById("password").value;
 
-									alert("아이디는 " + login_id + ", 비밀번호는 " + login_password);
-
-									if (login_id === "" || login_password === "") {
+									if (loginId === "" || loginPassword === "") {
 										alert('아이디와 비밀번호를 모두 입력해주세요');
 										return;
 									}
 
 									const credentials = {
-										login_id: login_id,
-										login_password: login_password
+										loginId: loginId,
+										loginPassword: loginPassword
 									};
 
 									fetch('/member/login', {
@@ -193,8 +113,7 @@
 												return response.json();
 											})
 											.then(data => {
-												alert('로그인 성공' + data);
-												console.log(data);
+												window.location.href = '/home';
 											})
 											.catch(error => {
 												alert('로그인 실패' + error);
@@ -221,13 +140,8 @@
 		</div>
 	</div>
 </div>
-<footer class="footer">
-	<div class="contact-info">
-		<span>Contact.</span>
-		<span>phone | 010-1234-5678</span>
-		<span>e-mail | example@example.com</span>
-	</div>
-	<img src="https://dongne.s3.ap-northeast-2.amazonaws.com/%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png" alt="Footer Image">
-</footer>
+
+<div th:replace="~{layouts/footer.html :: footer}"></div>
+
 </body>
 </html>
