@@ -1,19 +1,23 @@
 package com.boj.guidance.domain;
 
-import com.boj.guidance.domain.base.BaseEntity;
 import com.boj.guidance.domain.enumerate.MemberRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.boj.guidance.util.annotation.LockName;
+import com.boj.guidance.util.annotation.LockSerial;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Entity
-@NoArgsConstructor
-public class Member extends BaseEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member {
 
+    @Id
+    @LockSerial(keyPrefix = LockName.MEMBER)
+    private String id;
+    private String createdAt;
     private String handle;                  // 사용자명
     private String loginId;                 // 로그인 id
     private String loginPassword;           // 로그인 password
@@ -38,6 +42,7 @@ public class Member extends BaseEntity {
             Long ratingByProblemsSum,
             Long ratingBySolvedCount
     ) {
+        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.handle = handle;
         this.loginId = loginId;
         this.loginPassword = loginPassword;
