@@ -13,6 +13,7 @@
 	#login_box {
 		text-align: center;
 	}
+
 	#login_box .login_btn {
 		background: #3780C1;
 		border: none;
@@ -60,6 +61,7 @@
 		cursor: pointer;
 		text-decoration: underline;
 	}
+
 	.login-container {
 		background-color: #dce6f1;
 		border-radius: 7px;
@@ -108,7 +110,7 @@
 									})
 											.then(response => {
 												if (!response.ok) {
-													alert(response);
+													throw new Error('로그인 실패');
 												}
 												return response.json();
 											})
@@ -116,7 +118,7 @@
 												window.location.href = '/home';
 											})
 											.catch(error => {
-												alert('로그인 실패' + error);
+												alert(error.message);
 												console.log(error);
 											});
 								}

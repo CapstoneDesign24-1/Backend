@@ -21,16 +21,20 @@
         width: 100%;
         z-index: 999;
     }
+    .footer-wrapper {
+        background-color: #4385c0;
+        padding: 20px;
+    }
     .footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 30px;
-        background-color: #f0f0f0;
     }
-    .contact-info {
+    .contact-info { /* contact padding 추가하기 */
         display: flex;
         flex-direction: column;
+        padding-right: 20px;
+        padding-top: 5px;
     }
     .contact-info span {
         margin-bottom: 10px;
@@ -41,14 +45,16 @@
 </style>
 
 <footer>
-
-    <div class="contact-info">
-        <span>Contact.</span>
-        <span>phone | 010-1234-5678</span>
-        <span>e-mail | example@example.com</span>
+    <div class="footer-wrapper">
+        <div class="footer">
+            <div class="contact-info">
+                <span>Contact.</span>
+                <span>phone | 010-1234-5678</span>
+                <span>e-mail | example@example.com</span>
+            </div>
+            <img src="https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%85%E1%85%A9%E1%84%80%E1%85%A91.png" alt="Footer Image">
+        </div>
     </div>
-    <img src="https://dongne.s3.ap-northeast-2.amazonaws.com/%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png" alt="Footer Image">
-
 </footer>
 
 </html>
