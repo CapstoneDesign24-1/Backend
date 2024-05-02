@@ -7,6 +7,8 @@ import com.boj.guidance.dto.MemberResponseDto;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ApiResponse;
 import com.boj.guidance.util.api.ResponseCode;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +36,13 @@ public class MemberController {
      * 사용자 로그인 기능
      */
     @PostMapping("/login")
-    public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto dto) {
+    public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto dto, final HttpServletRequest httpRequest) {
         log.info("로그인 API 호출");
         MemberResponseDto login = memberService.login(dto);
+
+        final HttpSession session = httpRequest.getSession();
+        session.setAttribute("memberId", login.getId());
+        session.setMaxInactiveInterval(3600);
 
         return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS.getMessage(), login);
     }
