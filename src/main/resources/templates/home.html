@@ -6,14 +6,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
     <title>메인 화면</title>
 </head>
+
+<style>
+    .banner {
+        padding: 20px;
+        text-align: center;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/photo-1636956026491-86a9da7001c9.avif'); /* 이미지 경로 설정 */
+        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
+        background-position: center; /* 이미지를 가운데 정렬 */
+    }
+    .banner-text {
+        font-size: 50px; /* 원하는 글자 크기 설정 */
+        font-family: "Big Caslon", sans-serif; /* 원하는 글꼴 설정 */
+        font-weight: bold; /* 글자 굵기 설정 */
+        color: white; /* 텍스트 색상 설정 */
+    }
+    .banner-container {
+        padding-top: 80px;
+        padding-bottom: 30px;
+    }
+    .box-container {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto; /* 부모 요소에 대해 수평 가운데 정렬 */
+        padding: 20px; /* 좌우 여백 설정 */
+        max-width: 1200px;
+    }
+    .box-recommendation {
+        width: 400px;
+        height: 300px;
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/recommendation.png'); /* 이미지 경로 설정 */
+        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
+        background-position: center; /* 이미지를 가운데 정렬 */
+        flex-grow: 0;
+        border-radius: 20px;
+    }
+    .box-codeAnalysis {
+        width: 400px;
+        height: 300px;
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/codeAnalysis.avif'); /* 이미지 경로 설정 */
+        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
+        background-position: center; /* 이미지를 가운데 정렬 */
+        flex-grow: 0;
+        border-radius: 20px;
+    }
+    .box-study {
+        width: 400px;
+        height: 300px;
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/study.png'); /* 이미지 경로 설정 */
+        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
+        background-position: center; /* 이미지를 가운데 정렬 */
+        flex-grow: 0;
+        border-radius: 20px;
+    }
+    .box-community {
+        width: 400px;
+        height: 300px;
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/community.png'); /* 이미지 경로 설정 */
+        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
+        background-position: center; /* 이미지를 가운데 정렬 */
+        flex-grow: 0;
+        border-radius: 20px;
+    }
+    .box-padding {
+        width: 20px;
+        height: 300px;
+        flex-grow: 0;
+    }
+    .box-text {
+        width: 780px;
+        height: 300px;
+        padding: 30px;
+        box-sizing: border-box;
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+        border-radius: 15px;
+        flex-grow: 1;
+    }
+    .title-left {
+        text-align: left;
+        font-family: "Orbit", sans-serif;
+        font-size: 35px;
+        font-weight: bold;
+        padding-bottom: 20px;
+    }
+    .title-right {
+        text-align: right;
+        font-family: "Orbit", sans-serif;
+        font-size: 35px;
+        font-weight: bold;
+        padding-bottom: 20px;
+    }
+    .content-left {
+        text-align: left;
+        font-family: "Orbit", sans-serif;
+        font-size: 20px;
+    }
+    .space {
+        padding: 30px;
+    }
+</style>
 
 <body>
 
 <div th:replace="~{layouts/header.html :: header}"></div>
 
-<div> 메인 화면입니다.</div>
+<div class="banner-container">
+    <div class="banner">
+        <span class="banner-text">Code Smart, Succeed Fast.</span>
+    </div>
+</div>
+
+<div class="box-container">
+    <div class="box-recommendation"></div>
+    <div class="box-padding"></div>
+    <div class="box-text">
+        <div class="title-right">문제 추천</div>
+        <div class="content-left">알고리즘 풀이 유형에서 성취도가 낮은 유형과 문제 풀이 시도를 했지만 풀지 못한 문제들에 대한 유형 분석 후 알맞는 문제를 추천해줘요. 사용자의 풀이 정보를 바탕으로 추천 시스템이 작동하기 때문에 상대적으로 부족한 유형을 효율적으로 학습할 수 있어요.</div>
+    </div>
+</div>
+
+<div class="box-container">
+    <div class="box-text">
+        <div class="title-left">코드 분석</div>
+        <div class="content-left">제출한 코드에 대한 피드백을 제공해요. 자세한 피드백을 제공하며 코드를 효율적으로 작성하기 위한 가이드 역할을 해줘요.</div>
+    </div>
+    <div class="box-padding"></div>
+    <div class="box-codeAnalysis"></div>
+</div>
+
+<div class="box-container">
+    <div class="box-study"></div>
+    <div class="box-padding"></div>
+    <div class="box-text">
+        <div class="title-right">스터디</div>
+        <div class="content-left">공동의 목표를 가지고 있거나 취약 알고리즘의 분석을 바탕으로 스터디 그룹을 만들어줘요. 사용자들간의 수동적인 그룹 매칭이 아닌 분석을 바탕으로 매칭을 하기 때문에 서로의 성장에 큰 영향을 줄 수 있어요.</div>
+    </div>
+</div>
+
+<div class="box-container">
+    <div class="box-text">
+        <div class="title-left">커뮤니티</div>
+        <div class="content-left">몰랐던 문제나 새로운 풀이를 공유할 수 있어요. 더욱 광범위한 사람들과 소통하며 다양한 코딩 스타일을 습득해봐요.</div>
+    </div>
+    <div class="box-padding"></div>
+    <div class="box-community"></div>
+</div>
+
+<div class="space"></div>
 
 <div th:replace="~{layouts/footer.html :: footer}"></div>
 
