@@ -17,6 +17,8 @@ public enum ResponseCode {
     USER_AUTH_FAIL(HttpStatus.UNAUTHORIZED, false, "사용자 인증 실패"),
     USER_JOIN_FAIL(HttpStatus.UNAUTHORIZED, false, "회원가입 실패"),
     USER_LOGIN_FAIL(HttpStatus.UNAUTHORIZED, false, "로그인 실패"),
+    USER_ROLE_CHANGE_FAIL(HttpStatus.BAD_REQUEST, false, "Role 변경 실패"),
+    USER_NOT_EXIST(HttpStatus.BAD_REQUEST, false, "사용자 정보 없음"),
 
     // 비밀번호 암호화 관련 오류
     PASSWORD_ENCRYPT_FAIL(HttpStatus.CONFLICT, false, "암호화 실패"),
@@ -24,7 +26,8 @@ public enum ResponseCode {
     // 성공
     USER_AUTH_SUCCESS(HttpStatus.ACCEPTED, true, "사용자 인증 성공"),
     USER_LOGIN_SUCCESS(HttpStatus.CREATED, true, "로그인 성공"),
-    USER_JOIN_SUCCESS(HttpStatus.CREATED, true, "회원가입 성공");
+    USER_JOIN_SUCCESS(HttpStatus.CREATED, true, "회원가입 성공"),
+    USER_ROLE_CHANGE_SUCCESS(HttpStatus.ACCEPTED, true, "Role 변경 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;

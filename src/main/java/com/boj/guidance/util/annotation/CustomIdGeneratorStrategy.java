@@ -25,13 +25,11 @@ public class CustomIdGeneratorStrategy {
     private static final ThreadLocal<Lock> localLock = ThreadLocal.withInitial(ReentrantLock::new);
 
     public String generateRedisId(SharedSessionContractImplementor session) {
-
         final RLock lock;
         final String uuid;
 
         String lockKey = "IdGenerator";
         lock = redissonClient.getLock(lockKey);
-
         try {
             if (!lock.tryLock(1, 3, TimeUnit.SECONDS)) {
                 return null;
@@ -51,24 +49,26 @@ public class CustomIdGeneratorStrategy {
     }
 
     public String generateThreadId(SharedSessionContractImplementor session) {
-        String uuid;
+        String uuid = null;
 
         Lock lock = localLock.get();
-        lock.lock();
-        try {
-            if (lock.tryLock(1, TimeUnit.SECONDS)) {
-                try {
-//                    log.info("Thread LOCKED");
-                    uuid = UUID.randomUUID().toString();
-                } finally {
-                    lock.unlock();
-//                    log.info("Thread UNLOCKED");
+        boolean isLocked = false;
+        int tryCount = 0; // 시도 횟수 제한
+
+        while (!isLocked || tryCount < 3) {
+            try {
+                isLocked = lock.tryLock(2, TimeUnit.SECONDS);
+                if (isLocked) { // lock 성공
+                    try {
+                        uuid = UUID.randomUUID().toString();
+                    } finally {
+                        lock.unlock();
+                    }
                 }
-            } else {
+            } catch (InterruptedException e) {
                 throw new IdGeneratorException(ResponseCode.REDIS_LOCK_FAIL);
             }
-        } catch (InterruptedException e) {
-            throw new IdGeneratorException(ResponseCode.REDIS_LOCK_FAIL);
+            tryCount++;
         }
 
         return uuid;

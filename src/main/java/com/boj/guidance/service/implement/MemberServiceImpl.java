@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
     // 사용자 회원가입 기능 구현
     @Override
     public MemberResponseDto join(MemberJoinRequestDto dto) {
-        if (memberRepository.findById(dto.getLoginId()).isPresent()) { // 회원가입 하려는 사용자 id가 이미 존재하면 ERROR
+        if (memberRepository.findByLoginId(dto.getLoginId()).isPresent()) { // 회원가입 하려는 사용자 id가 이미 존재하면 ERROR
             throw new UserException(ResponseCode.USER_JOIN_FAIL);
         }
         Member saved = memberRepository.save(dto.toEntity(passwordEncoder.encrypt(dto.getLoginPassword())));
@@ -58,5 +58,21 @@ public class MemberServiceImpl implements MemberService {
                 .block();
 
         return dto.getUser();
+    }
+
+    // 사용자 권한 변경
+    @Override
+    public MemberResponseDto change(String id) {
+        int updated = memberRepository.updateRole(id);
+        Member member;
+        if (updated == 1) {
+            member = memberRepository.findById(id)
+                    .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_EXIST));
+            log.info(member.getRole().toString());
+            return new MemberResponseDto().toResponse(member);
+
+        } else {
+            throw new UserException(ResponseCode.USER_ROLE_CHANGE_FAIL);
+        }
     }
 }

@@ -57,4 +57,12 @@ public class MemberController {
         return memberService.authorize();
     }
 
+    /**
+     * 사용자 역할 변경
+     */
+    @PutMapping("/change/{id}")
+    public ApiResponse<MemberResponseDto> change(@PathVariable("id") String id) {
+        return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.change(id));
+    }
+
 }
