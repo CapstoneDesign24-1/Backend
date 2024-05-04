@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberResponseDto {
     private String id;                      // id
+    private String role;                    // role
     private String handle;                  // 사용자명
     private String bio;                     // 자기소개
     private Long solvedCount;               // 푼 문제 수
@@ -21,6 +22,7 @@ public class MemberResponseDto {
     @Builder
     public MemberResponseDto(
             String id,
+            String role,
             String handle,
             String bio,
             Long solvedCount,
@@ -30,6 +32,7 @@ public class MemberResponseDto {
             Long ratingBySolvedCount
     ) {
         this.id = id;
+        this.role = role;
         this.handle = handle;
         this.bio = bio;
         this.solvedCount = solvedCount;
@@ -42,6 +45,7 @@ public class MemberResponseDto {
     public MemberResponseDto toResponse(Member entity) {
         return MemberResponseDto.builder()
                 .id(entity.getId())
+                .role(entity.getRole().toString())
                 .handle(entity.getHandle())
                 .bio(entity.getBio())
                 .solvedCount(entity.getSolvedCount())
