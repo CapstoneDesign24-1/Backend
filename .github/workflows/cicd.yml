@@ -18,13 +18,23 @@ jobs:
       - name: Start Redis
         uses: supercharge/redis-github-action@1.1.0
         with:
-          redis-version: 6
+          redis-version: 7.2.4
+          redis-port: 6379
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build with Gradle
         run: ./gradlew clean build
+        env:
+          PASSWORD_ENCODER: ${{ secrets.PASSWORD_ENCODER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+          SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+          SPRING_DATA_REDIS_HOST: ${{ secrets.SPRING_DATA_REDIS_HOST }}
+          SPRING_DATA_REDIS_PORT: ${{ secrets.SPRING_DATA_REDIS_PORT }}
+          SPRING_SESSION_REDIS_NAMESPACE: ${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
+
 
       - name: Get current time
         uses: josStorer/get-current-time@v2.0.2
