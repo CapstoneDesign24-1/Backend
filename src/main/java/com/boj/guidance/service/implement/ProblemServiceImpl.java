@@ -2,6 +2,7 @@ package com.boj.guidance.service.implement;
 
 import com.boj.guidance.domain.Problem;
 import com.boj.guidance.dto.ProblemDto.ProblemResponseDto;
+import com.boj.guidance.dto.ProblemDto.ProblemsResponseDto;
 import com.boj.guidance.repository.ProblemRepository;
 import com.boj.guidance.service.ProblemService;
 import com.boj.guidance.util.api.ResponseCode;
@@ -29,13 +30,14 @@ public class ProblemServiceImpl implements ProblemService {
 
     // 알고리즘 이름으로 문제들 검색
     @Override
-    public List<ProblemResponseDto> searchAllProblemByAlgorithm(String name) {
+    public ProblemsResponseDto searchAllProblemByAlgorithm(String name) {
         List<Integer> problemIds = problemRepository.findAllProblemIds(name);
         ArrayList<ProblemResponseDto> problems = new ArrayList<>();
         for (Integer problemId : problemIds) {
             problems.add(returnProblemById(problemId));
         }
-        return problems;
+        List<ProblemResponseDto> problemResponseDtos = problems.stream().toList();
+        return new ProblemsResponseDto().toArray(problemResponseDtos, problemResponseDtos.size());
     }
 
     public ProblemResponseDto returnProblemById(Integer problemId) {
