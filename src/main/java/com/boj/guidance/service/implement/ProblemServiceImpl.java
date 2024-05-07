@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,21 @@ public class ProblemServiceImpl implements ProblemService {
     // 문제 id로 검색하기
     @Override
     public ProblemResponseDto searchProblemById(Integer problemId) {
+        return returnProblemById(problemId);
+    }
+
+    // 알고리즘 이름으로 문제들 검색
+    @Override
+    public List<ProblemResponseDto> searchAllProblemByAlgorithm(String name) {
+        List<Integer> problemIds = problemRepository.findAllProblemIds(name);
+        ArrayList<ProblemResponseDto> problems = new ArrayList<>();
+        for (Integer problemId : problemIds) {
+            problems.add(returnProblemById(problemId));
+        }
+        return problems;
+    }
+
+    public ProblemResponseDto returnProblemById(Integer problemId) {
         Optional<Problem> problemOptional = problemRepository.findById(problemId);
         if (problemOptional.isPresent()) {
             Problem problem = problemOptional.get();
