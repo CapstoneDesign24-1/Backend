@@ -23,11 +23,15 @@ public enum ResponseCode {
     // 비밀번호 암호화 관련 오류
     PASSWORD_ENCRYPT_FAIL(HttpStatus.CONFLICT, false, "암호화 실패"),
 
+    // 문제 관련 오류
+    PROBLEM_FIND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 검색 실패"),
+
     // 성공
     USER_AUTH_SUCCESS(HttpStatus.ACCEPTED, true, "사용자 인증 성공"),
     USER_LOGIN_SUCCESS(HttpStatus.CREATED, true, "로그인 성공"),
     USER_JOIN_SUCCESS(HttpStatus.CREATED, true, "회원가입 성공"),
-    USER_ROLE_CHANGE_SUCCESS(HttpStatus.ACCEPTED, true, "Role 변경 성공");
+    USER_ROLE_CHANGE_SUCCESS(HttpStatus.ACCEPTED, true, "Role 변경 성공"),
+    ALGORITHM_NAME_SEARCH_SUCCESS(HttpStatus.ACCEPTED, true, "알고리즘 이름으로 검색 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;
