@@ -1,7 +1,7 @@
-package com.boj.guidance.dto;
+package com.boj.guidance.dto.MemberDto;
 
 import com.boj.guidance.domain.Member;
-import com.boj.guidance.util.MemberTierUtil;
+import com.boj.guidance.util.TierUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,7 +49,7 @@ public class MemberResponseDto {
                 .handle(entity.getHandle())
                 .bio(entity.getBio())
                 .solvedCount(entity.getSolvedCount())
-                .tier(MemberTierUtil.checkTier(entity.getTier()))
+                .tier(TierUtil.checkTier(entity.getTier()))
                 .rating(entity.getRating())
                 .ratingByProblemsSum(entity.getRatingByProblemsSum())
                 .ratingBySolvedCount(entity.getRatingBySolvedCount())
