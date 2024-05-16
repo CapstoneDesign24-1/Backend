@@ -9,6 +9,7 @@ import com.boj.guidance.util.api.ResponseCode;
 import com.boj.guidance.util.exception.ProblemException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,12 +24,14 @@ public class ProblemServiceImpl implements ProblemService {
     private final ProblemRepository problemRepository;
 
     // 문제 id로 검색하기
+    @Cacheable(value = "problem", key = "#id")
     @Override
     public ProblemResponseDto searchProblemById(Integer problemId) {
         return returnProblemById(problemId);
     }
 
     // 알고리즘 이름으로 문제들 검색
+    @Cacheable(value = "problem", key = "#name")
     @Override
     public ProblemsResponseDto searchAllProblemByAlgorithm(String name) {
         List<Integer> problemIds = problemRepository.findAllProblemIds(name);
@@ -40,6 +43,19 @@ public class ProblemServiceImpl implements ProblemService {
         return new ProblemsResponseDto().toArray(problemResponseDtos, problemResponseDtos.size());
     }
 
+    // 랜덤으로 5개의 문제를 뽑아 반환
+    @Override
+    public ProblemsResponseDto returnRandomProblems() {
+        List<Problem> randomProblem = problemRepository.findRandomProblem();
+        ArrayList<ProblemResponseDto> problems = new ArrayList<>();
+        for(Problem problem : randomProblem) {
+            problems.add(returnProblemById(problem.getProblemId()));
+        }
+        List<ProblemResponseDto> problemResponseDtos = problems.stream().toList();
+        return new ProblemsResponseDto().toArray(problemResponseDtos, problemResponseDtos.size());
+    }
+
+    // 문제 id로 문제 알고리즘과 함께 반환하여 주는 공통 기능 메서드
     public ProblemResponseDto returnProblemById(Integer problemId) {
         Optional<Problem> problemOptional = problemRepository.findById(problemId);
         if (problemOptional.isPresent()) {

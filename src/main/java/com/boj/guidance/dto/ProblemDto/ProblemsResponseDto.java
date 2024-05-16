@@ -9,24 +9,24 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ProblemsResponseDto {
-    private List<ProblemResponseDto> problemResponseDtos;
+    private List<ProblemResponseDto> problems;
     private int count;
 
     @Builder
     public ProblemsResponseDto(
-            List<ProblemResponseDto> problemResponseDtos,
+            List<ProblemResponseDto> problems,
             int count
     ) {
-        this.problemResponseDtos = problemResponseDtos;
+        this.problems = problems;
         this.count = count;
     }
 
     public ProblemsResponseDto toArray(
-            List<ProblemResponseDto> problemResponseDtos,
+            List<ProblemResponseDto> problems,
             int count
     ) {
         return ProblemsResponseDto.builder()
-                .problemResponseDtos(problemResponseDtos)
+                .problems(problems)
                 .count(count)
                 .build();
     }
