@@ -41,7 +41,7 @@ public class MemberController {
         MemberResponseDto login = memberService.login(dto);
 
         final HttpSession session = httpRequest.getSession();
-        session.setAttribute("memberId", login.getId());
+        session.setAttribute("memberId", login.getHandle());
         session.setMaxInactiveInterval(3600);
 
         return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS.getMessage(), login);
