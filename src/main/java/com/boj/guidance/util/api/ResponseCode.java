@@ -23,6 +23,9 @@ public enum ResponseCode {
     // 비밀번호 암호화 관련 오류
     PASSWORD_ENCRYPT_FAIL(HttpStatus.CONFLICT, false, "암호화 실패"),
 
+    // Django 서버 관련 오류
+    ANALYSIS_IMAGE_FAIL(HttpStatus.BAD_REQUEST, false, "분석 이미지 오류"),
+
     // 성공
     USER_AUTH_SUCCESS(HttpStatus.ACCEPTED, true, "사용자 인증 성공"),
     USER_LOGIN_SUCCESS(HttpStatus.CREATED, true, "로그인 성공"),
