@@ -86,33 +86,29 @@ jobs:
           port: 22
           timeout: 60s
           script: |
-            CONTAINER_ID=$( sudo docker ps -qf "name=redis" )
-            
-            sudo docker exec $CONTAINER_ID sh -c '
-              export PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }};
-              export SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }};
-              export SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }};
-              export SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }};
-              export SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }};
-              export SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }};
-              export SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }};
-              docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }};
-              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest;
-              docker stop $(docker ps -a -q);
-              docker run -d --log-driver=syslog -p 8080:8080 \
-                -e PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }} \
-                -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
-                -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
-                -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
-                -e SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }} \
-                -e SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }} \
-                -e SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }} \
-                ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest;
-              docker rm $(docker ps --filter "status=exited" -a -q);
-              docker image prune -a -f;
-            '
+            export PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }}
+            export SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+            export SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
+            export SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
+            export SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }}
+            export SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }}
+            export SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
+            sudo docker stop $(docker ps -a -q)
+            sudo docker run -d --log-driver=syslog -p 8080:8080 \
+              --network server \
+              -e PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }} \
+              -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
+              -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
+              -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
+              -e SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }} \
+              -e SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }} \
+              -e SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }} \
+              ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
+            sudo docker rm $(docker ps --filter 'status=exited' -a -q)
+            sudo docker image prune -a -f
 
-      # REMOVE GitHub IP FROM security group
+      # REMOVE Github IP FROM security group
       - name: Remove IP FROM security group
         run: |
           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
