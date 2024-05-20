@@ -9,18 +9,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
-    <title>메인 화면</title>
+    <title>백준 길라잡이</title>
 </head>
 
 <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Orbit", sans-serif;
+        background: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%87%E1%85%A2%E1%84%80%E1%85%A7%E1%86%BC.jpg') no-repeat center center fixed;
+        background-size: cover;
+        position: relative;
+    }
+    .background-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 80%); /* White overlay with 0.7 opacity */
+        z-index: -1;
+    }
     .banner {
         padding: 20px;
         text-align: center;
-        height: 200px;
+        height: 300px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/photo-1636956026491-86a9da7001c9.avif'); /* 이미지 경로 설정 */
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%92%E1%85%A1.gif'); /* 이미지 경로 설정 */
         background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
         background-position: center; /* 이미지를 가운데 정렬 */
     }
@@ -87,9 +104,9 @@
         height: 300px;
         padding: 30px;
         box-sizing: border-box;
-        border-left: 2px solid black;
-        border-right: 2px solid black;
-        border-radius: 15px;
+        border-left: 3px solid black;
+        border-right: 3px solid black;
+        border-radius: 50px;
         flex-grow: 1;
     }
     .title-left {
@@ -118,6 +135,7 @@
 
 <body>
 
+<div class="background-overlay"></div>
 <div th:replace="~{layouts/header.html :: header}"></div>
 
 <div class="banner-container">
