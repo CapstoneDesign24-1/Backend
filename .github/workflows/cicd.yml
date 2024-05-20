@@ -106,6 +106,7 @@ jobs:
               -e SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }} \
               -e SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }} \
               -e SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }} \
+              -e DJANGO_SERVER_ADDRESS: ${{ secrets.DJANGO_SERVER_ADDRESS }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
             sudo docker rm $(docker ps --filter 'status=exited' -a -q)
             sudo docker image prune -a -f
