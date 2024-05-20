@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ import java.util.Map;
 
 @Controller
 public class PageController {
+
+    @Value("${django.server.address}")
+    private String ADDRESS;
 
     // 로그인 페이지 이동
     @GetMapping("/login")
@@ -84,7 +88,7 @@ public class PageController {
     @GetMapping("mypage")
     public String mypage(HttpSession session, Model model) {
         String userName = (String) session.getAttribute("memberId");
-        String apiUrl = "http://localhost:8000/analysis/image/" + userName;
+        String apiUrl = ADDRESS + "/analysis/image/" + userName;
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
 
