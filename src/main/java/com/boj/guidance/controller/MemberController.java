@@ -1,9 +1,9 @@
 package com.boj.guidance.controller;
 
-import com.boj.guidance.dto.MemberAuthRequestDto;
-import com.boj.guidance.dto.MemberJoinRequestDto;
-import com.boj.guidance.dto.MemberLoginRequestDto;
-import com.boj.guidance.dto.MemberResponseDto;
+import com.boj.guidance.dto.MemberDto.MemberAuthRequestDto;
+import com.boj.guidance.dto.MemberDto.MemberJoinRequestDto;
+import com.boj.guidance.dto.MemberDto.MemberLoginRequestDto;
+import com.boj.guidance.dto.MemberDto.MemberResponseDto;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ApiResponse;
 import com.boj.guidance.util.api.ResponseCode;

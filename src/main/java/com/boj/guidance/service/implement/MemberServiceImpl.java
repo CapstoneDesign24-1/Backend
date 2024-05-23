@@ -2,7 +2,7 @@ package com.boj.guidance.service.implement;
 
 import com.boj.guidance.config.PasswordEncoder;
 import com.boj.guidance.domain.Member;
-import com.boj.guidance.dto.*;
+import com.boj.guidance.dto.MemberDto.*;
 import com.boj.guidance.repository.MemberRepository;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ResponseCode;
