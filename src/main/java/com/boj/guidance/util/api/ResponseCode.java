@@ -26,6 +26,9 @@ public enum ResponseCode {
     // 문제 관련 오류
     PROBLEM_FIND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 검색 실패"),
     PROBLEM_RECOMMEND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 추천 실패"),
+  
+    // Django 서버 관련 오류
+    ANALYSIS_IMAGE_FAIL(HttpStatus.BAD_REQUEST, false, "분석 이미지 오류"),
 
     // 성공
     USER_AUTH_SUCCESS(HttpStatus.ACCEPTED, true, "사용자 인증 성공"),

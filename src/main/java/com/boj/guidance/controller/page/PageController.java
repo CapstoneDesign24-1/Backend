@@ -1,11 +1,25 @@
 package com.boj.guidance.controller.page;
 
+import com.boj.guidance.util.api.ResponseCode;
+import com.boj.guidance.util.exception.DjangoException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @Controller
 public class PageController {
+
+    @Value("${django.server.address}")
+    private String ADDRESS;
 
     // 로그인 페이지 이동
     @GetMapping("/login")
@@ -68,6 +82,30 @@ public class PageController {
         } else {
             return "redirect:/login";
         }
+    }
+
+    // 나는 어디쯤일까? 페이지
+    @GetMapping("mypage")
+    public String mypage(HttpSession session, Model model) {
+        String userName = (String) session.getAttribute("memberId");
+        String apiUrl = ADDRESS + "/analysis/image/" + userName;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            Map<String, String> responseData = objectMapper.readValue(responseEntity.getBody(), new TypeReference<Map<String, String>>() {});
+
+            String encodedImage = responseData.get("image");
+            encodedImage = "data:image/png;base64, " + encodedImage;
+
+            model.addAttribute("image", encodedImage);
+        } catch (JsonProcessingException e) {
+            throw new DjangoException(ResponseCode.ANALYSIS_IMAGE_FAIL);
+        }
+
+        return "mypage";
     }
 
 }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{../static/favicon.ico}">
     <title>Header</title>
 </head>
 
@@ -72,7 +73,7 @@
         <a href="/codeAnalysis" class="header-item" style="background-color: rgba(0,0,0,0);">코드 분석</a>
         <a href="/community" class="header-item" style="background-color: rgba(0,0,0,0);">커뮤니티</a>
         <span class="divider"></span>
-        <span th:if="${session.memberId}" class="header-item" style="background-color: rgba(0,0,0,0);">나는 어디쯤일까?</span>
+        <a th:if="${session.memberId}" href="mypage" class="header-item" style="background-color: rgba(0,0,0,0);">나는 어디쯤일까?</a>
         <!-- 세션에 사용자 아이디가 없다면 로그인 링크 표시 -->
         <a th:unless="${session.memberId}" href="/login" class="header-item" style="background-color: rgba(0,0,0,0);">로그인</a>
     </div>
