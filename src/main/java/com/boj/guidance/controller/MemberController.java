@@ -60,9 +60,19 @@ public class MemberController {
     /**
      * 사용자 역할 변경
      */
-    @PutMapping("/change/{id}")
-    public ApiResponse<MemberResponseDto> change(@PathVariable("id") String id) {
-        return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.change(id));
+    @PutMapping("/role/{id}")
+    public ApiResponse<MemberResponseDto> changeRole(@PathVariable("id") String id) {
+        log.info("사용자 역할 변경 API");
+        return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.changeRole(id));
+    }
+
+    /**
+     * 사용자 스터디그룹 모집 활성화 상태 변경
+     */
+    @PutMapping("/state/{id}")
+    public ApiResponse<MemberResponseDto> changeState(@PathVariable("id") String id) {
+        log.info("사용자 스터디그룹 모집 상태 변경 API");
+        return ApiResponse.success(ResponseCode.USER_STATE_CHANGE_SUCCESS.getMessage(), memberService.changeState(id));
     }
 
 }

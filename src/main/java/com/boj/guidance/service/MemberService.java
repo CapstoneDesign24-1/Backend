@@ -17,6 +17,9 @@ public interface MemberService {
     MemberAuthRequestDto authorize();
 
     @Transactional
-    MemberResponseDto change(String id);
+    MemberResponseDto changeRole(String id);
+
+    @Transactional
+    MemberResponseDto changeState(String id);
 
 }

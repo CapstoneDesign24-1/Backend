@@ -1,7 +1,7 @@
 package com.boj.guidance.domain;
 
 import com.boj.guidance.domain.enumerate.MemberRole;
-import com.boj.guidance.util.annotation.LockName;
+import com.boj.guidance.domain.enumerate.StudyGroupState;
 import com.boj.guidance.util.annotation.LockSerial;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,10 +12,11 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Member {
 
     @Id
-    @LockSerial(keyPrefix = LockName.MEMBER)
+    @LockSerial
     private String id;
     private String createdAt;
     private String handle;                  // 사용자명
@@ -29,6 +30,12 @@ public class Member {
     private Long ratingBySolvedCount;       // 푼 문제 수로 계산한 레이팅
     @Enumerated(EnumType.STRING)
     private MemberRole role;                // 사용자 역할
+    @Setter
+    private StudyGroupState state;          // 스터디그룹 매칭 활성화 상태
+    @Setter
+    private String weakAlgorithm;           // 취약 알고리즘
+    @ManyToOne(fetch = FetchType.LAZY)
+    private StudyGroup studyGroup;          // 가입한 스터디그룹
 
     @Builder
     public Member(
@@ -40,7 +47,9 @@ public class Member {
             Long tier,
             Long rating,
             Long ratingByProblemsSum,
-            Long ratingBySolvedCount
+            Long ratingBySolvedCount,
+            String weakAlgorithm,
+            StudyGroup studyGroup
     ) {
         this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.handle = handle;
@@ -53,6 +62,30 @@ public class Member {
         this.ratingByProblemsSum = ratingByProblemsSum;
         this.ratingBySolvedCount = ratingBySolvedCount;
         this.role = MemberRole.USER;
+        this.state = StudyGroupState.NOT_WAITING;
+        this.weakAlgorithm = weakAlgorithm;
+        this.studyGroup = studyGroup;
+    }
+
+    public void stateUpdate() {
+        if (state == StudyGroupState.WAITING) {
+            setState(StudyGroupState.NOT_WAITING);
+        } else {
+            setState(StudyGroupState.WAITING);
+        }
+    }
+
+    public void joinStudyGroup(StudyGroup studyGroup) {
+        if (this.studyGroup != null) {
+            this.studyGroup.removeMember(this);
+        }
+        this.studyGroup = studyGroup;
+        studyGroup.addMember(this);
+    }
+
+    public void exitStudyGroup(StudyGroup studyGroup) {
+        this.studyGroup = null;
+        studyGroup.removeMember(this);
     }
 
 }

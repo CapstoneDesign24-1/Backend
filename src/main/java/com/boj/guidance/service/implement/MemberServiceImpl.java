@@ -2,6 +2,7 @@ package com.boj.guidance.service.implement;
 
 import com.boj.guidance.config.PasswordEncoder;
 import com.boj.guidance.domain.Member;
+import com.boj.guidance.domain.enumerate.StudyGroupState;
 import com.boj.guidance.dto.MemberDto.*;
 import com.boj.guidance.repository.MemberRepository;
 import com.boj.guidance.service.MemberService;
@@ -62,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 사용자 권한 변경
     @Override
-    public MemberResponseDto change(String id) {
+    public MemberResponseDto changeRole(String id) {
         int updated = memberRepository.updateRole(id);
         Member member;
         if (updated == 1) {
@@ -73,6 +74,23 @@ public class MemberServiceImpl implements MemberService {
 
         } else {
             throw new UserException(ResponseCode.USER_ROLE_CHANGE_FAIL);
+        }
+    }
+
+    // 사용자 스터디그룹 모집 활성화 상태 변경
+    @Override
+    public MemberResponseDto changeState(String id) {
+        Optional<Member> findMember = memberRepository.findById(id);
+        if (findMember.isPresent()) {
+            Member member = findMember.get();
+            if (member.getState() == StudyGroupState.WAITING) {
+                memberRepository.updateState(id, "NOT_WAITING");
+            } else {
+                memberRepository.updateState(id, "WAITING");
+            }
+            return new MemberResponseDto().toResponse(member);
+        } else {
+            throw new UserException(ResponseCode.USER_STATE_CHANGE_FAIL);
         }
     }
 }

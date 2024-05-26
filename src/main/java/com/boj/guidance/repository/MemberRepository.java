@@ -33,4 +33,12 @@ public interface MemberRepository extends JpaRepository<Member, String> {
             "WHERE m.id = :id")
     int updateRole(@Param("id") String id);
 
+    @Modifying
+    @Query(
+            "UPDATE Member m " +
+                    "SET m.state = :state " +
+                    "WHERE m.id = :id")
+    void updateState(@Param("id") String id,
+                    @Param("state") String state);
+
 }
