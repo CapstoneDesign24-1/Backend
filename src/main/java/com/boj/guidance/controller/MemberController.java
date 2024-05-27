@@ -75,4 +75,14 @@ public class MemberController {
         return ApiResponse.success(ResponseCode.USER_STATE_CHANGE_SUCCESS.getMessage(), memberService.changeState(id));
     }
 
+    /**
+     * 사용자 취약 알고리즘 업데이트
+     */
+    @PutMapping("/weak/{id}")
+    public ApiResponse<MemberResponseDto> updateWeakAlgorithm(@PathVariable("id") String id,
+                                                              @RequestParam("weakAlgorithm") String weakAlgorithm) {
+        log.info("사용자 취약 알고리즘 업데이트 API");
+        return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.updateWeakAlgorithm(id, weakAlgorithm));
+    }
+
 }

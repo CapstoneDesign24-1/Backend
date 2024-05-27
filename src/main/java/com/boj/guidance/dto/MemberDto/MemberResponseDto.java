@@ -4,7 +4,6 @@ import com.boj.guidance.domain.Member;
 import com.boj.guidance.domain.StudyGroup;
 import com.boj.guidance.domain.enumerate.StudyGroupState;
 import com.boj.guidance.util.TierUtil;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,7 +53,11 @@ public class MemberResponseDto {
         this.ratingByProblemsSum = ratingByProblemsSum;
         this.ratingBySolvedCount = ratingBySolvedCount;
         this.state = state;
-        this.weakAlgorithms = new ArrayList<>(Arrays.asList(weakAlgorithms.split(",")));
+        if (weakAlgorithms != null) {
+            this.weakAlgorithms = new ArrayList<>(Arrays.asList(weakAlgorithms.split(",")));
+        } else {
+            this.weakAlgorithms = null;
+        }
         this.studyGroup = studyGroup;
     }
 

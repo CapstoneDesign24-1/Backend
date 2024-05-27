@@ -17,9 +17,12 @@ public interface MemberService {
     MemberAuthRequestDto authorize();
 
     @Transactional
-    MemberResponseDto changeRole(String id);
+    MemberResponseDto changeRole(String memberId);
 
     @Transactional
-    MemberResponseDto changeState(String id);
+    MemberResponseDto changeState(String memberId);
+
+    @Transactional
+    MemberResponseDto updateWeakAlgorithm(String memberId, String algorithm);
 
 }

@@ -63,34 +63,30 @@ public class MemberServiceImpl implements MemberService {
 
     // 사용자 권한 변경
     @Override
-    public MemberResponseDto changeRole(String id) {
-        int updated = memberRepository.updateRole(id);
-        Member member;
-        if (updated == 1) {
-            member = memberRepository.findById(id)
-                    .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_EXIST));
-            log.info(member.getRole().toString());
-            return new MemberResponseDto().toResponse(member);
-
-        } else {
-            throw new UserException(ResponseCode.USER_ROLE_CHANGE_FAIL);
-        }
+    public MemberResponseDto changeRole(String memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+        );
+        member.roleUpdate();
+        return new MemberResponseDto().toResponse(memberRepository.save(member));
     }
 
     // 사용자 스터디그룹 모집 활성화 상태 변경
     @Override
-    public MemberResponseDto changeState(String id) {
-        Optional<Member> findMember = memberRepository.findById(id);
-        if (findMember.isPresent()) {
-            Member member = findMember.get();
-            if (member.getState() == StudyGroupState.WAITING) {
-                memberRepository.updateState(id, "NOT_WAITING");
-            } else {
-                memberRepository.updateState(id, "WAITING");
-            }
-            return new MemberResponseDto().toResponse(member);
-        } else {
-            throw new UserException(ResponseCode.USER_STATE_CHANGE_FAIL);
-        }
+    public MemberResponseDto changeState(String memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+        );
+        member.stateUpdate();
+        return new MemberResponseDto().toResponse(memberRepository.save(member));
+    }
+
+    @Override
+    public MemberResponseDto updateWeakAlgorithm(String memberId, String algorithm) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+        );
+        member.setWeakAlgorithm(algorithm);
+        return new MemberResponseDto().toResponse(memberRepository.save(member));
     }
 }

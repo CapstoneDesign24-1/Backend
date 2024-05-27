@@ -28,9 +28,11 @@ public class Member {
     private Long rating;                    // 레이팅
     private Long ratingByProblemsSum;       // 푼 문제의 난이도 합으로 계산한 레이팅
     private Long ratingBySolvedCount;       // 푼 문제 수로 계산한 레이팅
+    @Setter
     @Enumerated(EnumType.STRING)
     private MemberRole role;                // 사용자 역할
     @Setter
+    @Enumerated(EnumType.STRING)
     private StudyGroupState state;          // 스터디그룹 매칭 활성화 상태
     @Setter
     private String weakAlgorithm;           // 취약 알고리즘
@@ -47,9 +49,7 @@ public class Member {
             Long tier,
             Long rating,
             Long ratingByProblemsSum,
-            Long ratingBySolvedCount,
-            String weakAlgorithm,
-            StudyGroup studyGroup
+            Long ratingBySolvedCount
     ) {
         this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.handle = handle;
@@ -63,8 +63,8 @@ public class Member {
         this.ratingBySolvedCount = ratingBySolvedCount;
         this.role = MemberRole.USER;
         this.state = StudyGroupState.NOT_WAITING;
-        this.weakAlgorithm = weakAlgorithm;
-        this.studyGroup = studyGroup;
+        this.weakAlgorithm = null;
+        this.studyGroup = null;
     }
 
     public void stateUpdate() {
@@ -72,6 +72,14 @@ public class Member {
             setState(StudyGroupState.NOT_WAITING);
         } else {
             setState(StudyGroupState.WAITING);
+        }
+    }
+
+    public void roleUpdate() {
+        if (role == MemberRole.USER) {
+            setRole(MemberRole.ADMIN);
+        } else {
+            setRole(MemberRole.USER);
         }
     }
 
