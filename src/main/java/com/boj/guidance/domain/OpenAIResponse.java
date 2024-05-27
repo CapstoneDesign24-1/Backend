@@ -5,6 +5,7 @@ import com.boj.guidance.util.annotation.LockSerial;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OpenAIResponse {
     @Id
     @LockSerial(keyPrefix = LockName.MEMBER)

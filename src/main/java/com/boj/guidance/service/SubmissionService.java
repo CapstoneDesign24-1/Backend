@@ -1,4 +1,3 @@
-// src/main/java/com/boj/guidance/service/SubmissionService.java
 package com.boj.guidance.service;
 
 import com.boj.guidance.domain.OpenAIResponse;
@@ -8,12 +7,14 @@ import com.boj.guidance.repository.OpenAIResponseRepository;
 import com.boj.guidance.repository.SubmissionRepository;
 import com.boj.guidance.util.OpenAIClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class SubmissionService {
 
     private final SubmissionRepository submissionRepository;
@@ -30,9 +31,12 @@ public class SubmissionService {
         try {
             String gptResponse = openAIClient.getGPTResponse(savedSubmission.getCodeContent());
             // OpenAI 응답을 데이터베이스에 저장
-            OpenAIResponse openAIResponse = new OpenAIResponse(savedSubmission.getSubmitId(), gptResponse);
+            OpenAIResponse openAIResponse = OpenAIResponse.builder()
+                    .response(gptResponse)
+                    .submitId(savedSubmission.getSubmitId())
+                    .build();
             openAIResponseRepository.save(openAIResponse);
-            System.out.println("GPT Response: " + gptResponse);
+            log.info("GPT Response: " + gptResponse);
         } catch (IOException e) {
             e.printStackTrace();
         }
