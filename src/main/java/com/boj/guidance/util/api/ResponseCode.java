@@ -19,6 +19,7 @@ public enum ResponseCode {
     USER_LOGIN_FAIL(HttpStatus.BAD_REQUEST, false, "로그인 실패"),
     USER_ROLE_CHANGE_FAIL(HttpStatus.BAD_REQUEST, false, "Role 변경 실패"),
     USER_STATE_CHANGE_FAIL(HttpStatus.BAD_REQUEST, false, "State 변경 실패"),
+    USER_WEAK_ALGORITHM_UPDATE_FAIL(HttpStatus.BAD_REQUEST, false, "취약 알고리즘 업데이트 실패"),
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, false, "사용자 정보 없음"),
 
     // 비밀번호 암호화 관련 오류
@@ -40,6 +41,7 @@ public enum ResponseCode {
     USER_JOIN_SUCCESS(HttpStatus.CREATED, true, "회원가입 성공"),
     USER_ROLE_CHANGE_SUCCESS(HttpStatus.OK, true, "Role 변경 성공"),
     USER_STATE_CHANGE_SUCCESS(HttpStatus.OK, true, "State 변경 성공"),
+    USER_WEAK_ALGORITHM_UPDATE_SUCCESS(HttpStatus.OK, true, "취약 알고리즘 업데이트 성공"),
     ALGORITHM_NAME_SEARCH_SUCCESS(HttpStatus.FOUND, true, "문제 검색 성공"),
     PROBLEM_RECOMMEND_SUCCESS(HttpStatus.FOUND, true, "문제 추천 성공");
 
