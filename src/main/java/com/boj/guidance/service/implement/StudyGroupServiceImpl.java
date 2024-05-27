@@ -30,9 +30,8 @@ public class StudyGroupServiceImpl implements StudyGroupService {
     private final StudyGroupRepository studyGroupRepository;
 
     // 모든 스터디그룹 목록 반환
-    @Transactional(readOnly = true)
     public StudyGroupsResponseDto findAllGroups() {
-        List<StudyGroup> studyGroups = studyGroupRepository.findAllByDeletedIsFalse();
+        List<StudyGroup> studyGroups = studyGroupRepository.findAllByIsDeletedIsFalse();
         List<StudyGroupResponseDto> groupList = new ArrayList<>();
         for (StudyGroup studyGroup : studyGroups) {
             groupList.add(new StudyGroupResponseDto().toResponse(studyGroup));
@@ -42,7 +41,6 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 
     // 새로운 스터디그룹 생성
     @Override
-    @Transactional
     public StudyGroupResponseDto createGroup(String memberId, StudyGroupGenerateRequestDto dto) {
         Member member = getMember(memberId);
         StudyGroup saved = studyGroupRepository.save(dto.toEntity());
@@ -52,7 +50,6 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 
     // 스터디그룹 삭제
     @Override
-    @Transactional
     public StudyGroupResponseDto deleteGroup(String groupId) {
         StudyGroup studyGroup = getStudyGroup(groupId);
         studyGroup.setDeleted(true);
@@ -79,15 +76,14 @@ public class StudyGroupServiceImpl implements StudyGroupService {
         return new StudyGroupResponseDto().toResponse(studyGroupRepository.save(studyGroup));
     }
 
+    // 스터디그룹 구성원 검색/추가
     @Override
-    @Transactional
     public StudyGroupResponseDto recruitMember(String groupId) {
         return null;
     }
 
     // 스터디그룹 문제 풀이 추가
     @Override
-    @Transactional
     public StudyGroupResponseDto problemSolved(String groupId, Integer problemId) {
         Problem problem = getProblem(problemId);
         StudyGroup studyGroup = getStudyGroup(groupId);
