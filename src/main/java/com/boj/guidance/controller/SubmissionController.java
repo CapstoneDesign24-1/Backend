@@ -2,27 +2,27 @@
 package com.boj.guidance.controller;
 
 import com.boj.guidance.domain.Submission;
+import com.boj.guidance.dto.SubmissionDto.SubmissionReceiveRequestDto;
 import com.boj.guidance.service.SubmissionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/myapp/data")
-@CrossOrigin(origins = {"https://www.acmicpc.net", "chrome-extension://<extension-id>"}) // 허용할 도메인 설정
+@CrossOrigin(origins = {"*"}) // 허용할 도메인 설정
 public class SubmissionController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SubmissionController.class);
 
-    @Autowired
-    private SubmissionService submissionService;
+    private final SubmissionService submissionService;
 
     @PostMapping
-    public Submission receiveSubmission(@RequestBody Submission submission) {
+    public Submission receiveSubmission(@RequestBody SubmissionReceiveRequestDto submission) {
         // 로그에 받은 데이터를 출력
-        logger.info("Received Submission: {}", submission);
+        log.info(submission.toString());
 
         return submissionService.saveSubmission(submission);
     }
