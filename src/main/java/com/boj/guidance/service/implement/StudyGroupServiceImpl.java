@@ -16,7 +16,6 @@ import com.boj.guidance.util.exception.StudyGroupException;
 import com.boj.guidance.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class StudyGroupServiceImpl implements StudyGroupService {
     @Override
     public StudyGroupResponseDto createGroup(String memberId, StudyGroupGenerateRequestDto dto) {
         Member member = getMember(memberId);
-        StudyGroup saved = studyGroupRepository.save(dto.toEntity());
+        StudyGroup saved = studyGroupRepository.save(dto.toEntity(member));
         member.joinStudyGroup(saved);
         return new StudyGroupResponseDto().toResponse(saved);
     }
@@ -58,12 +57,12 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 
     // 스터디그룹에 사용자 입장
     @Override
-    public StudyGroupResponseDto memberJoin(String memberId, String groupId) {
+    public void memberJoin(String memberId, StudyGroup studyGroup) {
         Member member = getMember(memberId);
-        StudyGroup studyGroup = getStudyGroup(groupId);
         member.joinStudyGroup(studyGroup);
         memberRepository.save(member);
-        return new StudyGroupResponseDto().toResponse(studyGroupRepository.save(studyGroup));
+        studyGroup.setAvgRating((studyGroup.getAvgRating() + member.getRating()) / studyGroup.getMemberList().size());
+        new StudyGroupResponseDto().toResponse(studyGroupRepository.save(studyGroup));
     }
 
     // 스터디그룹에 사용자 퇴장
@@ -79,7 +78,12 @@ public class StudyGroupServiceImpl implements StudyGroupService {
     // 스터디그룹 구성원 검색/추가
     @Override
     public StudyGroupResponseDto recruitMember(String groupId) {
-        return null;
+        StudyGroup studyGroup = getStudyGroup(groupId);
+        List<Member> members = studyGroupRepository.findMemberToJoinStudyGroup(studyGroup.getMainAlgorithm(), studyGroup.getAvgRating());
+        for (Member member : members) {
+            memberJoin(member.getId(), studyGroup);
+        }
+        return new StudyGroupResponseDto().toResponse(studyGroupRepository.save(studyGroup));
     }
 
     // 스터디그룹 문제 풀이 추가

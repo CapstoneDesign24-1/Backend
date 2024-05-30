@@ -7,15 +7,66 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title>스터디</title>
+    <style>
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .title {
+            padding-top: 150px;
+            font-family: "Orbit", sans-serif;
+            font-size: 35px;
+            font-weight: bold;
+            padding-bottom: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+            padding-top: 30px;
+        }
+        .grid-item {
+            width: 250px;
+            height: 250px;
+            border: 1px solid #ccc;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 30px;
+            flex-direction: column;
+        }
+        .grid-item img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
 </head>
-
 <body>
-
 <div th:replace="~{layouts/header.html :: header}"></div>
-
-<div> 스터디 페이지 입니다.</div>
-
+<div class="content">
+    <div class="title">스터디그룹</div>
+    <div class="grid-container">
+        <div class="grid-item">
+            <img src="your_image_url_here" alt="Image 1">
+            <span>Image 1 Name</span>
+        </div>
+        <div class="grid-item">
+            <img src="your_image_url_here" alt="Image 2">
+            <span>Image 2 Name</span>
+        </div>
+        <div class="grid-item">
+            <img src="your_image_url_here" alt="Image 3">
+            <span>Image 3 Name</span>
+        </div>
+        <div class="grid-item">
+            <img src="your_image_url_here" alt="Image 4">
+            <span>Image 4 Name</span>
+        </div>
+    </div>
+</div>
 <div th:replace="~{layouts/footer.html :: footer}"></div>
-
 </body>
 </html>

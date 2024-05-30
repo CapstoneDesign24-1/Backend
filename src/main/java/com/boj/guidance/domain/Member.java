@@ -87,6 +87,7 @@ public class Member {
         if (this.studyGroup != null) {
             this.studyGroup.removeMember(this);
         }
+        stateUpdate();
         this.studyGroup = studyGroup;
         studyGroup.addMember(this);
     }
@@ -94,6 +95,7 @@ public class Member {
     public void exitStudyGroup(StudyGroup studyGroup) {
         this.studyGroup = null;
         studyGroup.removeMember(this);
+        stateUpdate();
     }
 
 }

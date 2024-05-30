@@ -1,5 +1,6 @@
 package com.boj.guidance.service;
 
+import com.boj.guidance.domain.StudyGroup;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupGenerateRequestDto;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupsResponseDto;
@@ -16,7 +17,7 @@ public interface StudyGroupService {
     @Transactional
     StudyGroupResponseDto deleteGroup(String groupId);
 
-    StudyGroupResponseDto memberJoin(String memberId, String groupId);
+    void memberJoin(String memberId, StudyGroup studyGroup);
 
     @Transactional
     StudyGroupResponseDto memberExit(String memberId, String groupId);
