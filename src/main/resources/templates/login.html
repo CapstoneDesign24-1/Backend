@@ -34,7 +34,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 85vh;
-		overflow: hidden; /* 스크롤 없음 */
+		overflow: hidden;
 	}
 
 	#login_box {
@@ -115,7 +115,7 @@
 												return response.json();
 											})
 											.then(data => {
-												window.location.href = '/home';
+												window.location.href = '/init';
 											})
 											.catch(error => {
 												alert(error.message);
@@ -130,7 +130,7 @@
 								<input type="password" id="password" placeholder="비밀번호를 입력해주세요.">
 							</div>
 
-							<div style="margin-top: 10px;"> <!-- 버튼들을 위한 간격 추가 -->
+							<div style="margin-top: 10px;">
 								<button onclick="window.location.href='/join';" id="signup_link">회원가입</button>
 								<span style="margin-right: 40px;"></span>
 								<button onclick="login()" id="login_btn" class="login_btn">로그인</button>

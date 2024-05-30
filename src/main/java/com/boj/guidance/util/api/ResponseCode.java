@@ -20,6 +20,7 @@ public enum ResponseCode {
     USER_ROLE_CHANGE_FAIL(HttpStatus.BAD_REQUEST, false, "Role 변경 실패"),
     USER_STATE_CHANGE_FAIL(HttpStatus.BAD_REQUEST, false, "State 변경 실패"),
     USER_WEAK_ALGORITHM_UPDATE_FAIL(HttpStatus.BAD_REQUEST, false, "취약 알고리즘 업데이트 실패"),
+    USER_SOLVED_PROBLEMS_NOT_EXIST(HttpStatus.BAD_REQUEST, false, "취약 알고리즘 null"),
     USER_NOT_EXIST(HttpStatus.BAD_REQUEST, false, "사용자 정보 없음"),
 
     // 비밀번호 암호화 관련 오류
@@ -31,6 +32,7 @@ public enum ResponseCode {
   
     // Django 서버 관련 오류
     ANALYSIS_IMAGE_FAIL(HttpStatus.BAD_REQUEST, false, "분석 이미지 오류"),
+    WEAK_ALGORITHM_FAIL(HttpStatus.BAD_REQUEST, false, "취약 알고리즘 오류"),
 
     // 스터디그룹 관련 오류
     STUDY_GROUP_NOT_EXIST(HttpStatus.BAD_REQUEST, false, "스터디그룹 정보 없음"),

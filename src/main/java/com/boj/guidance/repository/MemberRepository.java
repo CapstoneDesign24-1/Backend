@@ -16,6 +16,12 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query(
             "SELECT m " +
+            "from Member m " +
+            "WHERE m.handle = :handle")
+    Optional<Member> findByHandle(@Param("handle") String handle);
+
+    @Query(
+            "SELECT m " +
             "FROM Member m " +
             "WHERE m.loginId = :id")
     Optional<Member> findByLoginId(@Param("id") String loginId);

@@ -62,7 +62,7 @@ public class Member {
         this.ratingByProblemsSum = ratingByProblemsSum;
         this.ratingBySolvedCount = ratingBySolvedCount;
         this.role = MemberRole.USER;
-        this.state = StudyGroupState.NOT_WAITING;
+        this.state = StudyGroupState.WAITING;
         this.weakAlgorithm = null;
         this.studyGroup = null;
     }

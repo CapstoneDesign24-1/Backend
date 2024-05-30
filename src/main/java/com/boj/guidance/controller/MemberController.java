@@ -1,9 +1,6 @@
 package com.boj.guidance.controller;
 
-import com.boj.guidance.dto.MemberDto.MemberAuthRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberJoinRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberLoginRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberResponseDto;
+import com.boj.guidance.dto.MemberDto.*;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ApiResponse;
 import com.boj.guidance.util.api.ResponseCode;
@@ -45,6 +42,14 @@ public class MemberController {
         session.setMaxInactiveInterval(3600);
 
         return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS.getMessage(), login);
+    }
+
+    /**
+     * 사용자 정보 새로고침 (로그인 직후)
+     */
+    @GetMapping("/init/{handle}")
+    public ApiResponse<WeakAlgorithmRequestDto> init(@PathVariable("handle") String handle) {
+        return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.init(handle));
     }
 
     /**
