@@ -14,6 +14,11 @@ import java.util.Optional;
 public interface StudyGroupRepository extends JpaRepository<StudyGroup, String> {
 
     @Query("SELECT s " +
+            "FROM StudyGroup s JOIN s.memberList m " +
+            "WHERE m.handle = :handle")
+    Optional<StudyGroup> findByMemberId(@Param("handle") String handle);
+
+    @Query("SELECT s " +
             "FROM StudyGroup s " +
             "WHERE s.isDeleted = false ")
     List<StudyGroup> findAllByIsDeletedIsFalse();

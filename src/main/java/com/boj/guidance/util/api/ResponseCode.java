@@ -47,7 +47,8 @@ public enum ResponseCode {
     ALGORITHM_NAME_SEARCH_SUCCESS(HttpStatus.FOUND, true, "문제 검색 성공"),
     PROBLEM_RECOMMEND_SUCCESS(HttpStatus.FOUND, true, "문제 추천 성공"),
     STUDY_GROUP_CREATE_SUCCESS(HttpStatus.CREATED, true, "스터디그룹 생성 성공"),
-    STUDY_GROUP_RECRUIT_SUCCESS(HttpStatus.OK, true, "스터디그룹 부원 모집 성공");
+    STUDY_GROUP_RECRUIT_SUCCESS(HttpStatus.OK, true, "스터디그룹 부원 모집 성공"),
+    STUDY_GROUP_ADD_PROBLEM_SUCCESS(HttpStatus.OK, true, "스터디그룹 문제 추가 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;

@@ -1,28 +1,17 @@
 package com.boj.guidance.controller.page;
 
 import com.boj.guidance.dto.MemberDto.WeakAlgorithmRequestDto;
+import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
 import com.boj.guidance.service.MemberService;
-import com.boj.guidance.util.api.ResponseCode;
-import com.boj.guidance.util.exception.DjangoException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.boj.guidance.service.StudyGroupService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +19,7 @@ import java.util.Map;
 public class PageController {
 
     private final MemberService memberService;
+    private final StudyGroupService studyGroupService;
 
     // 로그인 페이지 이동
     @GetMapping("/login")
@@ -54,6 +44,12 @@ public class PageController {
     @GetMapping("/study")
     public String study(HttpSession session, Model model) {
         String userName = (String) session.getAttribute("memberId");
+        Optional<StudyGroupResponseDto> dto = studyGroupService.checkIfMemberJoined(userName);
+        if (dto.isPresent()) {
+            model.addAttribute("group", dto.get());
+        } else {
+            model.addAttribute("group", null);
+        }
         if (userName == null) {
             return "redirect:/login";
         }

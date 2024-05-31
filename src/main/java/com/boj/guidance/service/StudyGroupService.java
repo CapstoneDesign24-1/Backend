@@ -6,6 +6,8 @@ import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupsResponseDto;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface StudyGroupService {
 
     @Transactional(readOnly = true)
@@ -27,4 +29,7 @@ public interface StudyGroupService {
 
     @Transactional
     StudyGroupResponseDto problemSolved(String groupId, Integer problemId);
+
+    @Transactional(readOnly = true)
+    Optional<StudyGroupResponseDto> checkIfMemberJoined(String memberId);
 }

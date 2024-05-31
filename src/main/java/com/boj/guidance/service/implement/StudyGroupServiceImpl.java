@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -93,6 +94,12 @@ public class StudyGroupServiceImpl implements StudyGroupService {
         StudyGroup studyGroup = getStudyGroup(groupId);
         studyGroup.addProblem(problem);
         return new StudyGroupResponseDto().toResponse(studyGroupRepository.save(studyGroup));
+    }
+
+    @Override
+    public Optional<StudyGroupResponseDto> checkIfMemberJoined(String handle) {
+        Optional<StudyGroup> studyGroup = studyGroupRepository.findByMemberId(handle);
+        return studyGroup.map(group -> new StudyGroupResponseDto().toResponse(group));
     }
 
     private Member getMember(String memberId) {
