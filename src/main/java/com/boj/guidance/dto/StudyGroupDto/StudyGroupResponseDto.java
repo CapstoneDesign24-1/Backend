@@ -4,12 +4,12 @@ import com.boj.guidance.domain.Member;
 import com.boj.guidance.domain.Problem;
 import com.boj.guidance.domain.StudyGroup;
 import com.boj.guidance.dto.MemberDto.MemberStudyGroupResponseDto;
+import com.boj.guidance.dto.ProblemDto.ProblemStudyGroupResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class StudyGroupResponseDto {
     private String id;
     private String propose;
     private List<MemberStudyGroupResponseDto> memberList;
-    private List<Problem> solvedList;
+    private List<ProblemStudyGroupResponseDto> solvedList;
     private boolean isDeleted;
     private Long avgRating;
     private String mainAlgorithm;
@@ -36,8 +36,10 @@ public class StudyGroupResponseDto {
         this.propose = propose;
         this.memberList = memberList.stream()
                 .map(member -> new MemberStudyGroupResponseDto().toResponse(member))
-                .collect(Collectors.toList());
-        this.solvedList = solvedList;
+                .toList();
+        this.solvedList = solvedList.stream()
+                .map(problem -> new ProblemStudyGroupResponseDto().toResponse(problem))
+                .toList();
         this.isDeleted = isDeleted;
         this.avgRating = avgRating;
         this.mainAlgorithm = mainAlgorithm;
