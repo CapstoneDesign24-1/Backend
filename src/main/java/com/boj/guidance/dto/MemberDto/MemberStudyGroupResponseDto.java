@@ -1,9 +1,9 @@
 package com.boj.guidance.dto.MemberDto;
 
 import com.boj.guidance.domain.Member;
-import com.boj.guidance.domain.StudyGroup;
 import com.boj.guidance.domain.enumerate.StudyGroupState;
 import com.boj.guidance.util.TierUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MemberResponseDto {
+@AllArgsConstructor
+public class MemberStudyGroupResponseDto {
     private String id;                      // id
     private String role;                    // role
     private String handle;                  // 사용자명
@@ -26,10 +27,9 @@ public class MemberResponseDto {
     private Long ratingBySolvedCount;       // 푼 문제 수로 계산한 레이팅
     private StudyGroupState state;          // 스터디그룹 모집 활성화 여부
     private List<String> weakAlgorithms;    // 취약 알고리즘
-    private StudyGroup studyGroup;          // 가입한 스터디그룹
 
     @Builder
-    public MemberResponseDto(
+    public MemberStudyGroupResponseDto(
             String id,
             String role,
             String handle,
@@ -40,8 +40,7 @@ public class MemberResponseDto {
             Long ratingByProblemsSum,
             Long ratingBySolvedCount,
             StudyGroupState state,
-            String weakAlgorithms,
-            StudyGroup studyGroup
+            String weakAlgorithms
     ) {
         this.id = id;
         this.role = role;
@@ -58,11 +57,10 @@ public class MemberResponseDto {
         } else {
             this.weakAlgorithms = null;
         }
-        this.studyGroup = studyGroup;
     }
 
-    public MemberResponseDto toResponse(Member entity) {
-        return MemberResponseDto.builder()
+    public MemberStudyGroupResponseDto toResponse(Member entity) {
+        return MemberStudyGroupResponseDto.builder()
                 .id(entity.getId())
                 .role(entity.getRole().toString())
                 .handle(entity.getHandle())
@@ -74,7 +72,6 @@ public class MemberResponseDto {
                 .ratingBySolvedCount(entity.getRatingBySolvedCount())
                 .state(entity.getState())
                 .weakAlgorithms(entity.getWeakAlgorithm())
-                .studyGroup(entity.getStudyGroup())
                 .build();
     }
 }

@@ -1,9 +1,6 @@
 package com.boj.guidance.service;
 
-import com.boj.guidance.dto.MemberDto.MemberAuthRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberJoinRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberLoginRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberResponseDto;
+import com.boj.guidance.dto.MemberDto.*;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface MemberService {
@@ -11,12 +8,19 @@ public interface MemberService {
     @Transactional
     MemberResponseDto join(MemberJoinRequestDto dto);
 
-    @Transactional(readOnly = true)
+    @Transactional
     MemberResponseDto login(MemberLoginRequestDto dto);
+
+    WeakAlgorithmRequestDto init(String handle);
 
     MemberAuthRequestDto authorize();
 
     @Transactional
-    MemberResponseDto change(String id);
+    MemberResponseDto changeRole(String memberId);
 
+    @Transactional
+    MemberResponseDto changeState(String memberId);
+
+    @Transactional
+    MemberResponseDto updateWeakAlgorithm(String handle, String algorithm);
 }

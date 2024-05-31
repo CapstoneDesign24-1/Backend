@@ -16,6 +16,12 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query(
             "SELECT m " +
+            "from Member m " +
+            "WHERE m.handle = :handle")
+    Optional<Member> findByHandle(@Param("handle") String handle);
+
+    @Query(
+            "SELECT m " +
             "FROM Member m " +
             "WHERE m.loginId = :id")
     Optional<Member> findByLoginId(@Param("id") String loginId);
@@ -25,12 +31,4 @@ public interface MemberRepository extends JpaRepository<Member, String> {
             "FROM Member m " +
             "WHERE m.loginId = :id AND m.loginPassword = :password")
     Optional<Member> findMemberByLoginIdAndLoginPassword(@Param("id") String loginId, @Param("password") String loginPassword);
-
-    @Modifying
-    @Query(
-            "UPDATE Member m " +
-            "SET m.role = 'ADMIN' " +
-            "WHERE m.id = :id")
-    int updateRole(@Param("id") String id);
-
 }

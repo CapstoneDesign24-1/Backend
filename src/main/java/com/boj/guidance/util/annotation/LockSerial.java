@@ -10,8 +10,6 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LockSerial {
-    LockName keyPrefix();
-
     enum LockType{DEFAULT, TRYLOCK};
     LockType lockType() default LockType.DEFAULT;
 }

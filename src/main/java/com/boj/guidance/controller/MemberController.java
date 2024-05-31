@@ -1,9 +1,6 @@
 package com.boj.guidance.controller;
 
-import com.boj.guidance.dto.MemberDto.MemberAuthRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberJoinRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberLoginRequestDto;
-import com.boj.guidance.dto.MemberDto.MemberResponseDto;
+import com.boj.guidance.dto.MemberDto.*;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ApiResponse;
 import com.boj.guidance.util.api.ResponseCode;
@@ -48,6 +45,14 @@ public class MemberController {
     }
 
     /**
+     * 사용자 정보 새로고침 (로그인 직후)
+     */
+    @GetMapping("/init/{handle}")
+    public ApiResponse<WeakAlgorithmRequestDto> init(@PathVariable("handle") String handle) {
+        return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.init(handle));
+    }
+
+    /**
      * 백준 사용자 인증하기
      */
     @PostMapping("/auth")
@@ -60,9 +65,29 @@ public class MemberController {
     /**
      * 사용자 역할 변경
      */
-    @PutMapping("/change/{id}")
-    public ApiResponse<MemberResponseDto> change(@PathVariable("id") String id) {
-        return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.change(id));
+    @PutMapping("/role/{id}")
+    public ApiResponse<MemberResponseDto> changeRole(@PathVariable("id") String id) {
+        log.info("사용자 역할 변경 API");
+        return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.changeRole(id));
+    }
+
+    /**
+     * 사용자 스터디그룹 모집 활성화 상태 변경
+     */
+    @PutMapping("/state/{id}")
+    public ApiResponse<MemberResponseDto> changeState(@PathVariable("id") String id) {
+        log.info("사용자 스터디그룹 모집 상태 변경 API");
+        return ApiResponse.success(ResponseCode.USER_STATE_CHANGE_SUCCESS.getMessage(), memberService.changeState(id));
+    }
+
+    /**
+     * 사용자 취약 알고리즘 업데이트
+     */
+    @PutMapping("/weak/{id}")
+    public ApiResponse<MemberResponseDto> updateWeakAlgorithm(@PathVariable("id") String id,
+                                                              @RequestParam("weakAlgorithm") String weakAlgorithm) {
+        log.info("사용자 취약 알고리즘 업데이트 API");
+        return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.updateWeakAlgorithm(id, weakAlgorithm));
     }
 
 }
