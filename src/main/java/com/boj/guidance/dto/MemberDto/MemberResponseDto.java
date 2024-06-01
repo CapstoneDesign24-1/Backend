@@ -26,7 +26,7 @@ public class MemberResponseDto {
     private Long ratingBySolvedCount;       // 푼 문제 수로 계산한 레이팅
     private StudyGroupState state;          // 스터디그룹 모집 활성화 여부
     private List<String> weakAlgorithms;    // 취약 알고리즘
-    private StudyGroup studyGroup;          // 가입한 스터디그룹
+    private String studyGroup;              // 가입한 스터디그룹
 
     @Builder
     public MemberResponseDto(
@@ -58,7 +58,7 @@ public class MemberResponseDto {
         } else {
             this.weakAlgorithms = null;
         }
-        this.studyGroup = studyGroup;
+        this.studyGroup = studyGroup.getId();
     }
 
     public MemberResponseDto toResponse(Member entity) {
