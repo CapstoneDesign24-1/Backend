@@ -47,6 +47,12 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-data-redis'
 	implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.29.0'
 
+	// kafka
+	implementation 'org.apache.kafka:kafka-clients:3.7.0'
+
+	// webSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	// etc
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

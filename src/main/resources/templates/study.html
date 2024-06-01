@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
     <title>스터디그룹</title>
+
+    <script type="text/javascript">
+        function openPopup(url) {
+            var options = "width=900,height=600,top=100,left=100,scrollbars=yes";
+            window.open(url, 'popupWindow', options);
+        }
+    </script>
+
     <style>
         body {
             margin: 0;
@@ -25,7 +33,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 80%); /* White overlay with 0.7 opacity */
+            background: rgba(255, 255, 255, 80%);
             z-index: -1;
         }
         .content {
@@ -79,7 +87,7 @@
         }
         .table-container {
             padding-top: 50px;
-            padding-bottom: 100px;
+            padding-bottom: 90px;
         }
         table {
             width: 100%;
@@ -112,6 +120,26 @@
             font-size: 50px;
             padding: 100px;
         }
+        .banner-button {
+            text-align: center;
+            font-family: "Orbit", sans-serif;
+            font-size: 50px;
+            padding: 30px;
+        }
+        .editor-button {
+            background-color: #3780C1;
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 0 auto;
+            cursor: pointer;
+            border-radius: 30px;
+            font-family: "Orbit", sans-serif;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -131,6 +159,10 @@
                     <span th:text="${member.handle}">Member Name</span>
                 </div>
             </div>
+        </div>
+
+        <div class="banner-button">
+            <button class="editor-button" onclick="openPopup('/editor')">라이브 코딩하기</button>
         </div>
 
         <div th:if="${#lists.size(group.solvedList) > 0}">
@@ -163,6 +195,7 @@
         <div th:unless="${#lists.size(group.solvedList) > 0}">
             <div class="banner">아직 푼 문제가 없어요!</div>
         </div>
+
     </div>
 
     <div th:if="${group == null}">
