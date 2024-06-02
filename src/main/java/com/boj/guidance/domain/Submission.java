@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Submission {
     @Id
     @LockSerial(keyPrefix = LockName.MEMBER)
-    private Long id;
+    private String id;
     private String codeContent;
     private String userName;
     private String submitId;

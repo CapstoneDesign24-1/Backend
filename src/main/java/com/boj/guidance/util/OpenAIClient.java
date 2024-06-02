@@ -1,4 +1,3 @@
-// src/main/java/com/boj/guidance/util/OpenAIClient.java
 package com.boj.guidance.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +48,7 @@ public class OpenAIClient {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-4o");
         requestBody.put("messages", new Map[]{message});
-        requestBody.put("max_tokens", 150);
+        requestBody.put("max_tokens", 1024);
         requestBody.put("temperature", 0.7);
 
         return objectMapper.writeValueAsString(requestBody);

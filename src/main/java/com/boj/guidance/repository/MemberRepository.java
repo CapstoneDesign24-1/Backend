@@ -33,4 +33,9 @@ public interface MemberRepository extends JpaRepository<Member, String> {
             "WHERE m.id = :id")
     int updateRole(@Param("id") String id);
 
+    @Query(
+            "SELECT m.handle FROM Member m WHERE m.id = :id")
+    Optional<String> findHandleById(@Param("id") String id);
+
+
 }

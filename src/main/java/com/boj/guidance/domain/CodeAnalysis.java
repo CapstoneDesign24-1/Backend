@@ -14,10 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OpenAIResponse {
+public class CodeAnalysis {
     @Id
     @LockSerial(keyPrefix = LockName.MEMBER)
-    private Long id;
+    private String id;
     private String submitId;
+    private String userName;
     private String response;
+    private String codeContent;
+    private String problemId;
+    private String problemTitle;
+    private String result;
 }

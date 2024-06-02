@@ -1,11 +1,16 @@
 package com.boj.guidance.controller.page;
 
+import com.boj.guidance.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class PageController {
+
+    private final MemberRepository memberRepository;
 
     // 로그인 페이지 이동
     @GetMapping("/login")
@@ -51,9 +56,11 @@ public class PageController {
     // 코드 분석 페이지
     @GetMapping("/codeAnalysis")
     public String codeAnalysis(HttpSession session) {
-        String userName = (String) session.getAttribute("memberId");
-        if (userName != null) {
-            return "codeAnalysis";
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId != null) {
+            return memberRepository.findHandleById(memberId)
+                    .map(handle -> "redirect:/codeAnalysis/" + handle)
+                    .orElse("redirect:/login");
         } else {
             return "redirect:/login";
         }
@@ -69,5 +76,4 @@ public class PageController {
             return "redirect:/login";
         }
     }
-
 }
