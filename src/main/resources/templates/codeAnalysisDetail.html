@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Analysis List</title>
+    <title>Code Analysis Detail</title>
     <style>
         body {
             margin: 0;
@@ -37,26 +37,16 @@
             font-weight: bold;
             padding-bottom: 20px;
         }
-        .table-container {
-            padding-top: 50px;
-            padding-bottom: 90px;
+        .section {
+            padding: 20px 0;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        .section h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
         }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-            font-family: "Orbit", sans-serif;
+        .section p {
             font-size: 18px;
-        }
-        th {
-            background-color: #a3b4e3;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -64,32 +54,22 @@
 <div class="background-overlay"></div>
 <div th:replace="~{layouts/header.html :: header}"></div>
 <div class="content">
-    <div class="title">Code Analysis List</div>
-    <div class="table-container">
-        <table>
-            <thead>
-            <tr>
-                <th>Submit ID</th>
-                <th>Problem ID</th>
-                <th>Problem Title</th>
-                <th>Result</th>
-                <th>Username</th>
-                <th>Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="response : ${responses}">
-                <td th:text="${response.submitId}">Submit ID</td>
-                <td th:text="${response.problemId}">Problem ID</td>
-                <td th:text="${response.problemTitle}">Problem Title</td>
-                <td th:text="${response.result}">Result</td>
-                <td th:text="${response.userName}">Username</td>
-                <td>
-                    <a th:href="@{/codeAnalysis/{username}/{id}(username=${username}, id=${response.id})}">Details</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="title">Code Analysis Detail</div>
+    <div class="section">
+        <h2>Code Content</h2>
+        <pre th:text="${response.codeContent}">Code content goes here...</pre>
+    </div>
+    <div class="section">
+        <h2>시간 효율성</h2>
+        <p th:text="${time}">Time complexity details go here...</p>
+    </div>
+    <div class="section">
+        <h2>메모리 효율성</h2>
+        <p th:text="${memory}">Memory complexity details go here...</p>
+    </div>
+    <div class="section">
+        <h2>개선점</h2>
+        <p th:text="${suggest}">Suggestions go here...</p>
     </div>
 </div>
 <div th:replace="~{layouts/footer.html :: footer}"></div>
