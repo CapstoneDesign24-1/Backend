@@ -3,6 +3,7 @@ package com.boj.guidance.controller.page;
 import com.boj.guidance.dto.MemberDto.WeakAlgorithmRequestDto;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
 import com.boj.guidance.service.MemberService;
+import com.boj.guidance.service.ProblemService;
 import com.boj.guidance.service.StudyGroupService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class PageController {
 
     private final MemberService memberService;
+    private final ProblemService problemService;
     private final StudyGroupService studyGroupService;
 
     // 로그인 페이지 이동
@@ -58,9 +60,10 @@ public class PageController {
 
     // 문제 추천 페이지
     @GetMapping("/recommendation")
-    public String recommendation(HttpSession session) {
+    public String recommendation(HttpSession session, Model model) {
         String userName = (String) session.getAttribute("memberId");
         if (userName != null) {
+            model.addAttribute("handle", userName);
             return "recommendation";
         } else {
             return "redirect:/login";
