@@ -32,13 +32,12 @@ public class ProblemController {
     }
 
     /**
-     * 램덤으로 문제 추출
-     * @사용자 ID 입력하여 맞춤 데이터를 반환하도록 변경 예정
+     * 문제 추천
      */
     // @RequestParam Integer memberId
-    @GetMapping("/recommend")
-    public ApiResponse<ProblemsResponseDto> getProblemsByRecommend() {
-        return ApiResponse.success(ResponseCode.PROBLEM_RECOMMEND_SUCCESS.getMessage(), problemService.returnRandomProblems());
+    @GetMapping("/recommend/{handle}")
+    public ApiResponse<ProblemsResponseDto> getProblemsByRecommend(@PathVariable("handle") String handle) {
+        return ApiResponse.success(ResponseCode.PROBLEM_RECOMMEND_SUCCESS.getMessage(), problemService.recommendProblems(handle));
     }
 
 }

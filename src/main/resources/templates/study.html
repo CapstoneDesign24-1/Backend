@@ -104,7 +104,7 @@
             font-size: 18px;
         }
         th {
-            background-color: #a3b4e3;
+            background-color: #b8d2ee;
         }
         .image-container {
             text-align: center;
@@ -123,14 +123,14 @@
         .banner-button {
             text-align: center;
             font-family: "Orbit", sans-serif;
-            font-size: 50px;
-            padding: 30px;
+            font-size: 40px;
+            padding-top: 40px;
         }
         .editor-button {
-            background-color: #3780C1;
+            background-color: #4d4d4d;
             color: white;
             border: none;
-            padding: 15px 32px;
+            padding: 18px 25px;
             text-align: center;
             text-decoration: none;
             display: block;
@@ -138,7 +138,11 @@
             cursor: pointer;
             border-radius: 30px;
             font-family: "Orbit", sans-serif;
-            font-size: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .editor-button:hover {
+            background-color: #3271da;
         }
     </style>
 </head>
@@ -162,7 +166,7 @@
         </div>
 
         <div class="banner-button">
-            <button class="editor-button" onclick="openPopup('/editor')">라이브 코딩하기</button>
+            <button class="editor-button" onclick="openPopup('/editor')">코드를 공유해요</button>
         </div>
 
         <div th:if="${#lists.size(group.solvedList) > 0}">
@@ -175,7 +179,7 @@
                         <th>문제 레벨</th>
                         <th>전체 문제 푼 횟수</th>
                         <th>평균 시도 수</th>
-                        <th>바로 가기 링크</th>
+                        <th>문제 풀러가요</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -185,7 +189,7 @@
                         <td th:text="${problem.level}">문제 레벨</td>
                         <td th:text="${problem.numberOfSolved}">전체 문제 푼 횟수</td>
                         <td th:text="${problem.avgTry}">평균 시도 수</td>
-                        <td><a th:href="@{${problem.link}}" target="_blank">바로가기</a></td>
+                        <td><a th:href="@{${problem.link}}" target="_blank">✓</a></td>
                     </tr>
                     </tbody>
                 </table>

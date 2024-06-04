@@ -29,17 +29,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 80%); /* White overlay with 0.7 opacity */
+            background: rgba(255, 255, 255, 80%);
             z-index: -1;
         }
-        /* 전체 내용 너비 제한 */
         .content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
-        /* 제목 및 새로고침 버튼 */
         .title {
             padding-top: 150px;
             font-family: "Orbit", sans-serif;
@@ -60,56 +57,32 @@
         .box-text {
             font-family: "Orbit", sans-serif;
         }
-
-        /* 가로 카드 스와이퍼 스타일 */
         .swiper-container {
             width: 100%;
             padding-top: 20px;
-            padding-bottom: 160px;
+            padding-bottom: 40px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #b5cce0 transparent;
+        }
+        .swiper-scrollbar {
+            height: 4px;
+            background-color: transparent;
+            margin-top: 0px;
+        }
+        .swiper-scrollbar-drag {
+            background-color: #729abd;
         }
         .swiper-slide {
-            width: 80px;
-            height: 250px;
+            width: 350px;
+            height: 200px;
             background-color: #fff;
             border-radius: 40px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             margin-right: 15px;
             padding-bottom: 200px;
+            border: 2px solid gray;
         }
-        .swiper-button-prev,
-        .swiper-button-next {
-            position: absolute;
-            top: 50%;
-            width: 30px;
-            height: 30px;
-            background-color: rgba(0, 0, 0, 0);
-            color: #000000;
-            border-radius: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            font-size: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .swiper-button-prev {
-            left: 0;
-        }
-        .swiper-button-next {
-            right: 0;
-        }
-        .swiper-button-prev:before,
-        .swiper-button-next:before {
-            font-family: 'Font Awesome 6 Free',serif;
-        }
-        .swiper-button-prev:before {
-            content: "\f053";
-        }
-        .swiper-button-next:before {
-            content: "\f054";
-        }
-
-        /* 카드 안의 텍스트 스타일 */
         .card-title {
             padding-top: 10px;
             padding-left: 20px;
@@ -129,16 +102,38 @@
             display: inline-block;
             padding: 5px 10px;
             margin-top: 5px;
-            background-color: #92acc5;
+            background-color: #bfd4ea;
             color: black;
             border-radius: 25px;
             margin-right: 5px;
+        }
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .loading-overlay img {
+            width: 100px;
+            height: 100px;
+        }
+        .banner {
+            padding: 100px;
         }
     </style>
 </head>
 
 <body>
 
+<div class="loading-overlay">
+    <img src="https://bojguidance.s3.ap-northeast-2.amazonaws.com/problem-loading.gif" alt="로딩 중...">
+</div>
 <div class="background-overlay"></div>
 <div th:replace="~{layouts/header.html :: header}"></div>
 
@@ -158,78 +153,70 @@
             <div class="swiper-slide"></div>
             <div class="swiper-slide"></div>
         </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
     </div>
 
+    <div class="banner"></div>
+
 </div>
-
-
 
 <div th:replace="~{layouts/footer.html :: footer}"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.8.4/swiper-bundle.min.js"></script>
 <script>
+    var handle = '[[${handle}]]';
     var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 3,
+        slidesPerView: 'auto',
         spaceBetween: 30,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
+        freeMode: true,
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        // 새로고침 버튼 클릭 이벤트 리스너 등록
         document.querySelector('.reload_button').addEventListener('click', function () {
+            showLoading();
             reloadProblems();
         });
-
-        // 페이지 로드시 초기 데이터 로드
+        showLoading();
         reloadProblems();
     });
 
+    function showLoading() {
+        document.querySelector('.loading-overlay').style.display = 'flex';
+    }
+
+    function hideLoading() {
+        document.querySelector('.loading-overlay').style.display = 'none';
+    }
+
     function reloadProblems() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/problem/recommend');
+        xhr.open('GET', '/problem/recommend/' + handle);
         xhr.onload = function () {
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.code === 200) {
                     var problems = response.result.problems;
                     var cardContainer = document.querySelector('.swiper-wrapper');
-                    cardContainer.innerHTML = ''; // 기존 카드를 모두 제거
+                    cardContainer.innerHTML = '';
                     problems.forEach(function (problem) {
                         var cardElement = document.createElement('div');
                         cardElement.classList.add('swiper-slide');
                         cardElement.innerHTML = `
-                            <p class="card-title" style="white-space: pre-line;">${problem.problemId} ${problem.level !== 'None' ? '| ' + problem.level : ''}\n${problem.title}</p>
-                            <p class="card-content"> [ 총 풀이 수는 ${problem.numberOfSolved}번 이에요.</p>
-                            <p class="card-content"> [ 평균 제출 수는 ${problem.avgTry}번 이에요.</p>
-                            <p class="card-content"> [ 관련 알고리즘은 다음과 같아요.</p>
-                            <p class="card-content"> ${problem.algorithms.map(algorithm => `<span class="hash-tag">#${algorithm}</span>`).join('')}</p>
-                        `;
+                        <p class="card-title" style="white-space: pre-line;">${problem.problemId} ${problem.level !== 'None' ? '| ' + problem.level : ''}\n${problem.title}</p>
+                        <p class="card-content"> ➙ 총 풀이 수는 ${problem.numberOfSolved}번 이에요.</p>
+                        <p class="card-content"> ➙ 평균 제출 수는 ${problem.avgTry}번 이에요.</p>
+                        <p class="card-content"> ➙ 알고리즘</p>
+                        <p class="card-content"> ${problem.algorithms.map(algorithm => `<span class="hash-tag">#${algorithm}</span>`).join('')}</p>
+                    `;
                         cardElement.addEventListener('click', function () {
                             window.open(problem.link, '_blank');
                         });
                         cardContainer.appendChild(cardElement);
                     });
-                    // Swiper 다시 초기화
-                    if (swiper) {
-                        swiper.destroy();
-                    }
-                    swiper = new Swiper('.swiper-container', {
-                        slidesPerView: 3,
-                        spaceBetween: 30,
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-                    });
                 } else {
                     console.error('카드 정보를 가져오는 동안 오류가 발생했습니다.');
                 }
             }
+            hideLoading(); // 로딩 GIF 숨김
         };
         xhr.send();
     }
@@ -237,3 +224,4 @@
 
 </body>
 </html>
+

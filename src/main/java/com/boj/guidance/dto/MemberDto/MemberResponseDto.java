@@ -58,7 +58,11 @@ public class MemberResponseDto {
         } else {
             this.weakAlgorithms = null;
         }
-        this.studyGroup = studyGroup.getId();
+        if (studyGroup != null) {
+            this.studyGroup = studyGroup.getId();
+        } else {
+            this.studyGroup = null;
+        }
     }
 
     public MemberResponseDto toResponse(Member entity) {
