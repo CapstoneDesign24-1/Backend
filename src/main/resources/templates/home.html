@@ -9,18 +9,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
-    <title>메인 화면</title>
+    <title>백준 길라잡이</title>
 </head>
 
 <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Orbit", sans-serif;
+        background: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%87%E1%85%A2%E1%84%80%E1%85%A7%E1%86%BC.jpg') no-repeat center center fixed;
+        background-size: cover;
+        position: relative;
+    }
+    .background-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 80%); /* White overlay with 0.7 opacity */
+        z-index: -1;
+    }
     .banner {
         padding: 20px;
         text-align: center;
-        height: 200px;
+        height: 300px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/photo-1636956026491-86a9da7001c9.avif'); /* 이미지 경로 설정 */
+        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%92%E1%85%A1.gif'); /* 이미지 경로 설정 */
         background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
         background-position: center; /* 이미지를 가운데 정렬 */
     }
@@ -34,90 +51,64 @@
         padding-top: 80px;
         padding-bottom: 30px;
     }
-    .box-container {
+    .event {
         display: flex;
         justify-content: center;
+        align-items: center;
         margin: 0 auto; /* 부모 요소에 대해 수평 가운데 정렬 */
         padding: 20px; /* 좌우 여백 설정 */
         max-width: 1200px;
+        transition: opacity 0.5s;
     }
-    .box-recommendation {
+    .event.visible {
+        opacity: 1;
+    }
+    .event.near-visible {
+        opacity: 0.75;
+    }
+    .event.far-visible {
+        opacity: 0.5;
+    }
+    .event.hidden {
+        opacity: 0.25;
+    }
+    .event .left, .event .right {
         width: 400px;
         height: 300px;
-        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/recommendation.png'); /* 이미지 경로 설정 */
-        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
-        background-position: center; /* 이미지를 가운데 정렬 */
-        flex-grow: 0;
         border-radius: 20px;
     }
-    .box-codeAnalysis {
-        width: 400px;
-        height: 300px;
-        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/codeAnalysis.avif'); /* 이미지 경로 설정 */
-        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
-        background-position: center; /* 이미지를 가운데 정렬 */
-        flex-grow: 0;
-        border-radius: 20px;
+    .event .left {
+        width: 600px; /* 이미지의 가로 크기 조정 */
+        height: 350px; /* 이미지의 세로 크기 조정 */
+        background-size: cover;
+        background-position: center;
     }
-    .box-study {
-        width: 400px;
-        height: 300px;
-        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/study.png'); /* 이미지 경로 설정 */
-        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
-        background-position: center; /* 이미지를 가운데 정렬 */
-        flex-grow: 0;
-        border-radius: 20px;
-    }
-    .box-community {
-        width: 400px;
-        height: 300px;
-        background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/community.png'); /* 이미지 경로 설정 */
-        background-size: cover; /* 이미지를 컨테이너에 맞게 조절 */
-        background-position: center; /* 이미지를 가운데 정렬 */
-        flex-grow: 0;
-        border-radius: 20px;
-    }
-    .box-padding {
-        width: 20px;
-        height: 300px;
-        flex-grow: 0;
-    }
-    .box-text {
+    .event .right {
         width: 780px;
-        height: 300px;
         padding: 30px;
         box-sizing: border-box;
-        border-left: 2px solid black;
-        border-right: 2px solid black;
-        border-radius: 15px;
         flex-grow: 1;
     }
-    .title-left {
+    .title {
         text-align: left;
         font-family: "Orbit", sans-serif;
         font-size: 35px;
         font-weight: bold;
         padding-bottom: 20px;
     }
-    .title-right {
-        text-align: right;
-        font-family: "Orbit", sans-serif;
-        font-size: 35px;
-        font-weight: bold;
-        padding-bottom: 20px;
-    }
-    .content-left {
+    .content {
         text-align: left;
         font-family: "Orbit", sans-serif;
         font-size: 20px;
     }
     .space {
-        padding: 30px;
+        padding: 100px;
     }
 </style>
 
 <body>
 
+<div class="background-overlay"></div>
 <div th:replace="~{layouts/header.html :: header}"></div>
 
 <div class="banner-container">
@@ -126,45 +117,123 @@
     </div>
 </div>
 
-<div class="box-container">
-    <div class="box-recommendation"></div>
-    <div class="box-padding"></div>
-    <div class="box-text">
-        <div class="title-right">문제 추천</div>
-        <div class="content-left">알고리즘 풀이 유형에서 성취도가 낮은 유형과 문제 풀이 시도를 했지만 풀지 못한 문제들에 대한 유형 분석 후 알맞는 문제를 추천해줘요. 사용자의 풀이 정보를 바탕으로 추천 시스템이 작동하기 때문에 상대적으로 부족한 유형을 효율적으로 학습할 수 있어요.</div>
+<div id="recommendation" class="event" data-img-src="https://bojguidance.s3.ap-northeast-2.amazonaws.com/recommendation.png">
+    <div class="left" style="background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/homepage/problem.png');"></div>
+    <div class="right">
+        <div class="title">문제 추천</div>
+        <div class="content">알고리즘 풀이 유형에서 성취도가 낮은 유형과 문제 풀이 시도를 했지만 풀지 못한 문제들에 대한 유형 분석 후 알맞는 문제를 추천해줘요. 사용자의 풀이 정보를 바탕으로 추천 시스템이 작동하기 때문에 상대적으로 부족한 유형을 효율적으로 학습할 수 있어요.</div>
     </div>
 </div>
 
-<div class="box-container">
-    <div class="box-text">
-        <div class="title-left">코드 분석</div>
-        <div class="content-left">제출한 코드에 대한 피드백을 제공해요. 자세한 피드백을 제공하며 코드를 효율적으로 작성하기 위한 가이드 역할을 해줘요.</div>
-    </div>
-    <div class="box-padding"></div>
-    <div class="box-codeAnalysis"></div>
-</div>
-
-<div class="box-container">
-    <div class="box-study"></div>
-    <div class="box-padding"></div>
-    <div class="box-text">
-        <div class="title-right">스터디</div>
-        <div class="content-left">공동의 목표를 가지고 있거나 취약 알고리즘의 분석을 바탕으로 스터디 그룹을 만들어줘요. 사용자들간의 수동적인 그룹 매칭이 아닌 분석을 바탕으로 매칭을 하기 때문에 서로의 성장에 큰 영향을 줄 수 있어요.</div>
+<div id="codeAnalysis" class="event" data-img-src="https://bojguidance.s3.ap-northeast-2.amazonaws.com/codeAnalysis.avif">
+    <div class="left" style="background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/homepage/coding.png');"></div>
+    <div class="right">
+        <div class="title">코드 분석</div>
+        <div class="content">제출한 코드에 대한 피드백을 제공해요. 자세한 피드백을 제공하며 코드를 효율적으로 작성하기 위한 가이드 역할을 해줘요.</div>
     </div>
 </div>
 
-<div class="box-container">
-    <div class="box-text">
-        <div class="title-left">커뮤니티</div>
-        <div class="content-left">몰랐던 문제나 새로운 풀이를 공유할 수 있어요. 더욱 광범위한 사람들과 소통하며 다양한 코딩 스타일을 습득해봐요.</div>
+<div id="study" class="event" data-img-src="https://bojguidance.s3.ap-northeast-2.amazonaws.com/study.png">
+    <div class="left" style="background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/homepage/study.png');"></div>
+    <div class="right">
+        <div class="title">스터디</div>
+        <div class="content">공동의 목표를 가지고 있거나 취약 알고리즘의 분석을 바탕으로 스터디 그룹을 만들어줘요. 사용자들간의 수동적인 그룹 매칭이 아닌 분석을 바탕으로 매칭을 하기 때문에 서로의 성장에 큰 영향을 줄 수 있어요.</div>
     </div>
-    <div class="box-padding"></div>
-    <div class="box-community"></div>
+</div>
+
+<div id="community" class="event" data-img-src="https://bojguidance.s3.ap-northeast-2.amazonaws.com/community.png">
+    <div class="left" style="background-image: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/homepage/community.png');"></div>
+    <div class="right">
+        <div class="title">커뮤니티</div>
+        <div class="content">몰랐던 문제나 새로운 풀이를 공유할 수 있어요. 더욱 광범위한 사람들과 소통하며 다양한 코딩 스타일을 습득해봐요.</div>
+    </div>
 </div>
 
 <div class="space"></div>
 
 <div th:replace="~{layouts/footer.html :: footer}"></div>
+<script src="static/js/homepage.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const callback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    adjustOpacity();
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(callback, options);
+
+        const targets = document.querySelectorAll('.event');
+        targets.forEach(target => {
+            observer.observe(target);
+        });
+
+        const adjustOpacity = () => {
+            const allEvents = Array.from(document.querySelectorAll('.event'));
+            const viewportHeight = window.innerHeight;
+            const viewportCenter = viewportHeight / 2;
+
+            let closestEvent = null;
+            let minDistance = Infinity;
+
+            allEvents.forEach(event => {
+                const eventRect = event.getBoundingClientRect();
+                const eventCenter = eventRect.top + eventRect.height / 2;
+                const distanceFromCenter = Math.abs(viewportCenter - eventCenter);
+
+                if (distanceFromCenter < minDistance) {
+                    closestEvent = event;
+                    minDistance = distanceFromCenter;
+                }
+
+                if (distanceFromCenter < eventRect.height / 2) {
+                    event.classList.add('visible');
+                    event.classList.remove('near-visible', 'far-visible', 'hidden');
+                } else if (distanceFromCenter < eventRect.height) {
+                    event.classList.add('near-visible');
+                    event.classList.remove('visible', 'far-visible', 'hidden');
+                } else if (distanceFromCenter < viewportHeight) {
+                    event.classList.add('far-visible');
+                    event.classList.remove('visible', 'near-visible', 'hidden');
+                } else {
+                    event.classList.add('hidden');
+                    event.classList.remove('visible', 'near-visible', 'far-visible');
+                }
+            });
+
+            const gallery = document.querySelector('.gallery img'); // 갤러리 이미지 선택
+            if (closestEvent) {
+                const imgSrc = closestEvent.dataset.imgSrc;
+                gallery.src = imgSrc;
+            }
+        };
+    });
+
+    document.querySelectorAll('nav.nav a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            const headerOffset = document.querySelector('header').offsetHeight;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset - targetElement.offsetHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

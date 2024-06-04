@@ -1,4 +1,4 @@
-package com.boj.guidance.dto;
+package com.boj.guidance.dto.MemberDto;
 
 import com.boj.guidance.domain.Member;
 import lombok.Getter;

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Code Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <style>
+        .CodeMirror {
+            height: 580px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<textarea id="code" name="code">
+print("hello world")
+</textarea>
+
+<script>
+    var socket = new WebSocket('ws://3.35.115.158:8080/ws/code');
+
+    socket.onopen = function(event) {
+        console.log("WebSocket 연결이 열렸습니다.");
+    };
+
+    socket.onmessage = function(event) {
+        const receivedCode = event.data;
+        var cursorPosition = editor.getCursor();
+        editor.setValue(receivedCode);
+        editor.setCursor(cursorPosition);
+        console.log("Received message from server:", receivedCode);
+    };
+
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "python",
+        lineNumbers: true,
+        theme: "default"
+    });
+
+    var isTyping = false;
+    var lastSentCode = '';
+
+    var handleCodeChange = _.debounce(function() {
+        if (!isTyping) {
+            const code = editor.getValue();
+            if (code !== lastSentCode) {
+                console.log("Sent message to server:", code);
+                socket.send(code);
+                lastSentCode = code;
+            }
+        }
+    }, 500);
+
+    editor.on("change", function() {
+        isTyping = true;
+        handleCodeChange();
+        isTyping = false;
+    });
+
+    editor.on("blur", function() {
+        isTyping = false;
+    });
+
+    window.onbeforeunload = function() {
+        socket.close();
+    };
+
+</script>
+
+</body>
+</html>

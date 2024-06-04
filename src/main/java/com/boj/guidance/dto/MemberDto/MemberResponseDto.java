@@ -1,10 +1,16 @@
-package com.boj.guidance.dto;
+package com.boj.guidance.dto.MemberDto;
 
 import com.boj.guidance.domain.Member;
-import com.boj.guidance.util.MemberTierUtil;
+import com.boj.guidance.domain.StudyGroup;
+import com.boj.guidance.domain.enumerate.StudyGroupState;
+import com.boj.guidance.util.TierUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,6 +24,9 @@ public class MemberResponseDto {
     private Long rating;                    // 레이팅
     private Long ratingByProblemsSum;       // 푼 문제의 난이도 합으로 계산한 레이팅
     private Long ratingBySolvedCount;       // 푼 문제 수로 계산한 레이팅
+    private StudyGroupState state;          // 스터디그룹 모집 활성화 여부
+    private List<String> weakAlgorithms;    // 취약 알고리즘
+    private String studyGroup;              // 가입한 스터디그룹
 
     @Builder
     public MemberResponseDto(
@@ -29,7 +38,10 @@ public class MemberResponseDto {
             String tier,
             Long rating,
             Long ratingByProblemsSum,
-            Long ratingBySolvedCount
+            Long ratingBySolvedCount,
+            StudyGroupState state,
+            String weakAlgorithms,
+            StudyGroup studyGroup
     ) {
         this.id = id;
         this.role = role;
@@ -40,6 +52,13 @@ public class MemberResponseDto {
         this.rating = rating;
         this.ratingByProblemsSum = ratingByProblemsSum;
         this.ratingBySolvedCount = ratingBySolvedCount;
+        this.state = state;
+        if (weakAlgorithms != null) {
+            this.weakAlgorithms = new ArrayList<>(Arrays.asList(weakAlgorithms.split(",")));
+        } else {
+            this.weakAlgorithms = null;
+        }
+        this.studyGroup = studyGroup.getId();
     }
 
     public MemberResponseDto toResponse(Member entity) {
@@ -49,10 +68,13 @@ public class MemberResponseDto {
                 .handle(entity.getHandle())
                 .bio(entity.getBio())
                 .solvedCount(entity.getSolvedCount())
-                .tier(MemberTierUtil.checkTier(entity.getTier()))
+                .tier(TierUtil.checkTier(entity.getTier()))
                 .rating(entity.getRating())
                 .ratingByProblemsSum(entity.getRatingByProblemsSum())
                 .ratingBySolvedCount(entity.getRatingBySolvedCount())
+                .state(entity.getState())
+                .weakAlgorithms(entity.getWeakAlgorithm())
+                .studyGroup(entity.getStudyGroup())
                 .build();
     }
 }

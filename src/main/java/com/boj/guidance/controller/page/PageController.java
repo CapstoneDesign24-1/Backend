@@ -3,14 +3,28 @@ package com.boj.guidance.controller.page;
 import com.boj.guidance.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import com.boj.guidance.dto.MemberDto.WeakAlgorithmRequestDto;
+import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
+import com.boj.guidance.service.MemberService;
+import com.boj.guidance.service.StudyGroupService;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Optional;
+
+@Slf4j
+@RequiredArgsConstructor
 @Controller
 @RequiredArgsConstructor
 public class PageController {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final StudyGroupService studyGroupService;
 
     // 로그인 페이지 이동
     @GetMapping("/login")
@@ -31,15 +45,20 @@ public class PageController {
         return "home";
     }
 
-    // 스터디 페이지
+    // 스터디그룹 페이지
     @GetMapping("/study")
-    public String study(HttpSession session) {
+    public String study(HttpSession session, Model model) {
         String userName = (String) session.getAttribute("memberId");
-        if (userName != null) {
-            return "study";
+        Optional<StudyGroupResponseDto> dto = studyGroupService.checkIfMemberJoined(userName);
+        if (dto.isPresent()) {
+            model.addAttribute("group", dto.get());
         } else {
+            model.addAttribute("group", null);
+        }
+        if (userName == null) {
             return "redirect:/login";
         }
+        return "study";
     }
 
     // 문제 추천 페이지
@@ -75,5 +94,33 @@ public class PageController {
         } else {
             return "redirect:/login";
         }
+    }
+
+    // 나는 어디쯤일까? 페이지
+    @GetMapping("/mypage")
+    public String mypage(HttpSession session, Model model) {
+        String userName = (String) session.getAttribute("memberId");
+        WeakAlgorithmRequestDto dto = memberService.init(userName);
+        model.addAttribute("image", dto.getImage());
+        model.addAttribute("weak", dto.getWeak());
+        return "mypage";
+    }
+
+    // 초반 데이터 크롤링
+    @GetMapping("/init")
+    public String init(HttpSession session, Model model) {
+        String userName = (String) session.getAttribute("memberId");
+        model.addAttribute("handle", userName);
+        return "init";
+    }
+
+    // 라이브 코딩 에디터
+    @GetMapping("/editor")
+    public String editor(HttpSession session, Model model) {
+        String userName = (String) session.getAttribute("memberId");
+        if (studyGroupService.checkIfMemberJoined(userName).isPresent()) {
+            return "editor";
+        }
+        return null;
     }
 }
