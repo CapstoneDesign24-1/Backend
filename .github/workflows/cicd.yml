@@ -101,7 +101,7 @@ jobs:
             sudo docker rm backend
             sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
-            sudo docker run -d --name backend -p 8080:8080 --network server bojguidance:latest \
+            sudo docker run -d --name backend -p 8080:8080 --network server ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance \
               -e PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }} \
               -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
