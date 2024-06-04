@@ -26,9 +26,6 @@ public enum ResponseCode {
     // 비밀번호 암호화 관련 오류
     PASSWORD_ENCRYPT_FAIL(HttpStatus.CONFLICT, false, "암호화 실패"),
 
-    // 코드 분석 관련 오류
-    CODEANALYSIS_FAIL(HttpStatus.NOT_FOUND, false, "SubmitId Not Found"),
-  
     // 문제 관련 오류
     PROBLEM_FIND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 검색 실패"),
     PROBLEM_RECOMMEND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 추천 실패"),
