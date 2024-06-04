@@ -25,4 +25,5 @@ public class CodeAnalysis {
     private String problemId;
     private String problemTitle;
     private String result;
+    private String language;
 }

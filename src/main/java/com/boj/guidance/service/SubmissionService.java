@@ -50,6 +50,7 @@ public class SubmissionService {
                     .response(content)
                     .codeContent(savedSubmission.getCodeContent())
                     .problemId(savedSubmission.getProblemId())
+                    .language(savedSubmission.getLanguage())
                     .problemTitle(savedSubmission.getProblemTitle())
                     .result(savedSubmission.getResult())
                     .build();

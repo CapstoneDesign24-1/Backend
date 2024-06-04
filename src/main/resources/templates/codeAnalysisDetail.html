@@ -86,11 +86,23 @@
 <div th:replace="~{layouts/footer.html :: footer}"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        var language = /*[[${response.language}]]*/ 'C++';
+        var mode = 'text/x-c++src';
+        if (language.includes('Python')) {
+            mode = 'text/x-python';
+        } else if (language.includes('Java')) {
+            mode = 'text/x-java';
+        } else if (language.includes('C') || language.includes('C++')) {
+            mode = 'text/x-c++src';
+        }
+
         var codeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
-            mode: "text/x-c++src",
+            mode: mode,
             readOnly: true
         });
         codeMirror.setSize("650px", "700px"); // CodeMirror 편집기의 가로 길이를 늘립니다.
