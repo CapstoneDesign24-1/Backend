@@ -34,6 +34,7 @@ jobs:
           SPRING_DATA_REDIS_HOST: ${{ secrets.SPRING_DATA_REDIS_HOST_DEV }}
           SPRING_DATA_REDIS_PORT: ${{ secrets.SPRING_DATA_REDIS_PORT }}
           SPRING_SESSION_REDIS_NAMESPACE: ${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DJANGO_SERVER_ADDRESS: ${{ secrets.DJANGO_SERVER_ADDRESS }}
 
       - name: Get current time
@@ -94,6 +95,7 @@ jobs:
             export SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }}
             export SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }}
             export SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
+            export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
             export DJANGO_SERVER_ADDRESS=${{ secrets.DJANGO_SERVER_ADDRESS }}
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
             sudo docker stop $(docker ps -a -q)
@@ -106,6 +108,7 @@ jobs:
               -e SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }} \
               -e SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }} \
               -e SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }} \
+              -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
               -e DJANGO_SERVER_ADDRESS=${{ secrets.DJANGO_SERVER_ADDRESS }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
             sudo docker rm $(docker ps --filter 'status=exited' -a -q)

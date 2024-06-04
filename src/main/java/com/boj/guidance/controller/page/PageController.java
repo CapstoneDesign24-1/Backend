@@ -1,5 +1,8 @@
 package com.boj.guidance.controller.page;
 
+import com.boj.guidance.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import com.boj.guidance.dto.MemberDto.WeakAlgorithmRequestDto;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
 import com.boj.guidance.service.MemberService;
@@ -16,8 +19,10 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@RequiredArgsConstructor
 public class PageController {
 
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final StudyGroupService studyGroupService;
 
@@ -70,9 +75,11 @@ public class PageController {
     // 코드 분석 페이지
     @GetMapping("/codeAnalysis")
     public String codeAnalysis(HttpSession session) {
-        String userName = (String) session.getAttribute("memberId");
-        if (userName != null) {
-            return "codeAnalysis";
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId != null) {
+            return memberRepository.findHandleById(memberId)
+                    .map(handle -> "redirect:/codeAnalysis/" + handle)
+                    .orElse("redirect:/login");
         } else {
             return "redirect:/login";
         }
@@ -116,5 +123,4 @@ public class PageController {
         }
         return null;
     }
-
 }
