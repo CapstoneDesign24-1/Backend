@@ -34,6 +34,7 @@ jobs:
           SPRING_DATA_REDIS_HOST: ${{ secrets.SPRING_DATA_REDIS_HOST_DEV }}
           SPRING_DATA_REDIS_PORT: ${{ secrets.SPRING_DATA_REDIS_PORT }}
           SPRING_SESSION_REDIS_NAMESPACE: ${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Get current time
         uses: josStorer/get-current-time@v2.0.2
@@ -93,6 +94,7 @@ jobs:
             export SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }}
             export SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }}
             export SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
+            export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
             sudo docker stop $(docker ps -a -q)
             sudo docker run -d --log-driver=syslog -p 8080:8080 \
@@ -104,6 +106,7 @@ jobs:
               -e SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }} \
               -e SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }} \
               -e SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }} \
+              -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
             sudo docker rm $(docker ps --filter 'status=exited' -a -q)
             sudo docker image prune -a -f
