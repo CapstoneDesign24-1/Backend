@@ -1,3 +1,4 @@
+// SubmissionService.java
 package com.boj.guidance.service;
 
 import com.boj.guidance.domain.CodeAnalysis;
@@ -24,11 +25,9 @@ public class SubmissionService {
     private final OpenAIClient openAIClient;
     private final ObjectMapper objectMapper;
 
-    public Submission saveSubmission(SubmissionReceiveRequestDto dto) {
-        // Submission 객체를 데이터베이스에 저장
+    public CodeAnalysis saveSubmission(SubmissionReceiveRequestDto dto) {
         Submission savedSubmission = submissionRepository.save(dto.toEntity());
 
-        // OpenAI API 호출 및 응답 저장
         try {
             String prompt = "다음 코드를 분석하고 다음 형식으로 피드백을 제공해주세요:\n" +
                     "## 출력 형식 \n" +
@@ -41,13 +40,11 @@ public class SubmissionService {
 
             String gptResponse = openAIClient.getGPTResponse(prompt);
 
-            // JSON 파싱을 통해 "content" 부분만 추출
             JsonNode root = objectMapper.readTree(gptResponse);
             String content = root.path("choices").get(0).path("message").path("content").asText();
 
-            // OpenAI 응답을 데이터베이스에 저장
             CodeAnalysis codeAnalysis = CodeAnalysis.builder()
-                    .id(savedSubmission.getSubmitId()) // submitId를 id로 설정
+                    .id(savedSubmission.getSubmitId())
                     .submitId(savedSubmission.getSubmitId())
                     .userName(savedSubmission.getUserName())
                     .response(content)
@@ -56,12 +53,13 @@ public class SubmissionService {
                     .problemTitle(savedSubmission.getProblemTitle())
                     .result(savedSubmission.getResult())
                     .build();
-            codeAnalysisRepository.save(codeAnalysis);
+            codeAnalysis = codeAnalysisRepository.save(codeAnalysis);
 
             log.info("GPT Response: " + content);
+            return codeAnalysis;
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException("Failed to save submission and code analysis", e);
         }
-        return savedSubmission;
     }
 }

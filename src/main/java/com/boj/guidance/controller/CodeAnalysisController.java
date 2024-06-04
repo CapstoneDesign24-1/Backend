@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,8 +24,30 @@ public class CodeAnalysisController {
     private final ObjectMapper objectMapper;
 
     @GetMapping("/codeAnalysis/{username}")
-    public String getCodeAnalysisList(@PathVariable String username, Model model) {
-        List<CodeAnalysis> responses = codeAnalysisRepository.findByUserName(username);
+    public String getCodeAnalysisList(@PathVariable String username,
+                                      @RequestParam(required = false) String category,
+                                      @RequestParam(required = false) String keyword,
+                                      Model model) {
+        List<CodeAnalysis> responses;
+
+        if (category != null && keyword != null && !keyword.isEmpty()) {
+            switch (category) {
+                case "submitId":
+                    responses = codeAnalysisRepository.findByUserNameAndSubmitIdContaining(username, keyword);
+                    break;
+                case "problemId":
+                    responses = codeAnalysisRepository.findByUserNameAndProblemIdContaining(username, keyword);
+                    break;
+                case "problemTitle":
+                    responses = codeAnalysisRepository.findByUserNameAndProblemTitleContaining(username, keyword);
+                    break;
+                default:
+                    responses = codeAnalysisRepository.findByUserName(username);
+            }
+        } else {
+            responses = codeAnalysisRepository.findByUserName(username);
+        }
+
         model.addAttribute("responses", responses);
         model.addAttribute("username", username);
         return "codeAnalysis";
