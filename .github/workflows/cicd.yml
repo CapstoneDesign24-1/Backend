@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, cicd/codeDeploy]
 
 jobs:
   build:
@@ -97,10 +97,11 @@ jobs:
             export SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
             export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
             export DJANGO_SERVER_ADDRESS=${{ secrets.DJANGO_SERVER_ADDRESS }}
+            sudo docker stop backend
+            sudo docker rm backend
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
-            sudo docker stop $(docker ps -a -q)
-            sudo docker run -d --log-driver=syslog -p 8080:8080 \
-              --network server \
+            sudo docker run -d --name backend -p 8080:8080 --network server bojguidance:latest \
               -e PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }} \
               -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
