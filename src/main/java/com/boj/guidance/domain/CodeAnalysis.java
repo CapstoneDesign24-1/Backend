@@ -1,6 +1,5 @@
 package com.boj.guidance.domain;
 
-import com.boj.guidance.util.annotation.LockName;
 import com.boj.guidance.util.annotation.LockSerial;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CodeAnalysis {
     @Id
-    @LockSerial(keyPrefix = LockName.MEMBER)
+    @LockSerial
     private String id;
     private String submitId;
     private String userName;

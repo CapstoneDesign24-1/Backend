@@ -19,7 +19,6 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequiredArgsConstructor
 public class PageController {
 
     private final MemberRepository memberRepository;
