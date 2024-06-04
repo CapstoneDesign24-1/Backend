@@ -1,20 +1,26 @@
 package com.boj.guidance.controller.page;
 
-import com.boj.guidance.repository.MemberRepository;
+import com.boj.guidance.domain.CodeAnalysis;
+import com.boj.guidance.repository.CodeAnalysisRepository;
+import com.boj.guidance.util.api.ResponseCode;
+import com.boj.guidance.util.exception.CodeAnalysisException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import com.boj.guidance.dto.MemberDto.WeakAlgorithmRequestDto;
 import com.boj.guidance.dto.StudyGroupDto.StudyGroupResponseDto;
 import com.boj.guidance.service.MemberService;
-import com.boj.guidance.service.ProblemService;
 import com.boj.guidance.service.StudyGroupService;
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -22,10 +28,11 @@ import java.util.Optional;
 @Controller
 public class PageController {
 
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
-    private final ProblemService problemService;
     private final StudyGroupService studyGroupService;
+
+    private final CodeAnalysisRepository codeAnalysisRepository;
+    private final ObjectMapper objectMapper;
 
     // 로그인 페이지 이동
     @GetMapping("/login")
@@ -74,17 +81,65 @@ public class PageController {
         }
     }
 
-    // 코드 분석 페이지
     @GetMapping("/codeAnalysis")
-    public String codeAnalysis(HttpSession session) {
-        String memberId = (String) session.getAttribute("memberId");
-        if (memberId != null) {
-            return memberRepository.findHandleById(memberId)
-                    .map(handle -> "redirect:/codeAnalysis/" + handle)
-                    .orElse("redirect:/login");
+    public String getCodeAnalysisList(HttpSession session,
+                                      @RequestParam(required = false) String category,
+                                      @RequestParam(required = false) String keyword,
+                                      Model model) {
+        String userName = (String) session.getAttribute("memberId");
+
+        if (userName != null) {
+            List<CodeAnalysis> responses;
+            if (category != null && keyword != null && !keyword.isEmpty()) {
+                switch (category) {
+                    case "submitId":
+                        responses = codeAnalysisRepository.findByUserNameAndSubmitIdContaining(userName, keyword);
+                        break;
+                    case "problemId":
+                        responses = codeAnalysisRepository.findByUserNameAndProblemIdContaining(userName, keyword);
+                        break;
+                    case "problemTitle":
+                        responses = codeAnalysisRepository.findByUserNameAndProblemTitleContaining(userName, keyword);
+                        break;
+                    default:
+                        responses = codeAnalysisRepository.findByUserName(userName);
+                }
+            } else {
+                responses = codeAnalysisRepository.findByUserName(userName);
+            }
+            model.addAttribute("responses", responses);
+            model.addAttribute("username", userName);
+            return "codeAnalysis";
         } else {
             return "redirect:/login";
         }
+    }
+
+    @GetMapping("/codeAnalysis/{id}")
+    public String getCodeAnalysisDetail(HttpSession session,
+                                        @PathVariable String id,
+                                        Model model) {
+        String userName = (String) session.getAttribute("memberId");
+        CodeAnalysis response = codeAnalysisRepository.findById(id).orElseThrow(
+                () -> new CodeAnalysisException(ResponseCode.CODEANALYSIS_FAIL)
+        );
+
+        try {
+            JsonNode root = objectMapper.readTree(response.getResponse());
+            String time = root.path("time").asText();
+            String memory = root.path("memory").asText();
+            String suggest = root.path("suggest").asText();
+
+            model.addAttribute("time", time);
+            model.addAttribute("memory", memory);
+            model.addAttribute("suggest", suggest);
+        } catch (IOException e) {
+            throw new CodeAnalysisException(ResponseCode.CODEANALYSIS_FAIL, e);
+        }
+
+        model.addAttribute("response", response);
+        model.addAttribute("username", userName);
+        return "codeAnalysisDetail";
     }
 
     // 커뮤니티 페이지

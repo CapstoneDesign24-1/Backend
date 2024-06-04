@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Analysis Detail</title>
+    <title>코드 상세 분석</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,6 @@
             background: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%87%E1%85%A2%E1%84%80%E1%85%A7%E1%86%BC.jpg') no-repeat center center fixed;
             background-size: cover;
             position: relative;
-            height: 100vh;
         }
         .background-overlay {
             position: absolute;
@@ -29,25 +28,26 @@
             z-index: -1;
         }
         .content {
+            padding-top: 150px;
+            padding-bottom: 80px;
             display: flex;
-            max-width: 1200px;
+            max-width: 1500px;
             margin: 0 auto;
-            padding: 60px 20px 20px 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            height: calc(100vh - 40px);
-            overflow-y: auto;
+            overflow: hidden;
         }
         .code-content {
-            flex: 1;
+            flex: 6;
             margin-right: 20px;
+            min-width: 0;
+            overflow-y: auto;
         }
         .details {
-            flex: 2;
+            flex: 4;
+            min-width: 0;
+            overflow-y: auto;
         }
         .section {
-            padding: 20px 0;
+            padding: 10px 0;
         }
         .section h2 {
             font-size: 25px;
@@ -58,14 +58,18 @@
             line-height: 1.6;
         }
         .CodeMirror {
-            font-size: 20px;
+            font-size: 15px;
         }
         .box {
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
+            border: 2px solid #000000;
+            border-radius: 20px;
+            background: rgba(228, 231, 242, 0.5);
+        }
+        .text-head {
+            font-family: "Orbit", sans-serif;
+            font-size: 25px;
+            padding-bottom: 4px;
         }
     </style>
 </head>
@@ -80,20 +84,20 @@
     </div>
     <div class="details">
         <div class="section">
+            <h2 class="text-head">➙ 시간 효율성</h2>
             <div class="box">
-                <h2>시간 효율성</h2>
                 <p th:text="${time}">Time complexity details go here...</p>
             </div>
         </div>
         <div class="section">
+            <h2 class="text-head">➙ 메모리 효율성</h2>
             <div class="box">
-                <h2>메모리 효율성</h2>
                 <p th:text="${memory}">Memory complexity details go here...</p>
             </div>
         </div>
         <div class="section">
+            <h2 class="text-head">➙ 개선점</h2>
             <div class="box">
-                <h2>개선점</h2>
                 <p th:text="${suggest}">Suggestions go here...</p>
             </div>
         </div>
@@ -121,7 +125,7 @@
             mode: mode,
             readOnly: true
         });
-        codeMirror.setSize("650px", "700px"); // CodeMirror 편집기의 가로 길이를 늘립니다.
+        codeMirror.setSize("850px", "700px"); // CodeMirror 편집기의 가로 길이를 늘립니다.
     });
 </script>
 </body>

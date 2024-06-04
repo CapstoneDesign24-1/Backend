@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
-    <title>Code Analysis List</title>
+    <title>코드 분석</title>
     <style>
         body {
             margin: 0;
@@ -16,7 +16,6 @@
             background: url('https://bojguidance.s3.ap-northeast-2.amazonaws.com/%E1%84%87%E1%85%A2%E1%84%80%E1%85%A7%E1%86%BC.jpg') no-repeat center center fixed;
             background-size: cover;
             position: relative;
-            height: 100vh;
         }
         .background-overlay {
             position: absolute;
@@ -30,16 +29,14 @@
         .content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 100px 20px 20px 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 0 20px;
             height: calc(100vh - 40px);
             overflow-y: auto;
         }
         .title {
+            padding-top: 150px;
             font-family: "Orbit", sans-serif;
-            font-size: 45px;
+            font-size: 35px;
             font-weight: bold;
             padding-bottom: 20px;
         }
@@ -145,7 +142,7 @@
                 <th>문제 제목</th>
                 <th>결과</th>
                 <th>아이디</th>
-                <th>Details</th>
+                <th>분석 결과</th>
             </tr>
             </thead>
             <tbody>
@@ -153,10 +150,10 @@
                 <td th:text="${response.submitId}">Submit ID</td>
                 <td th:text="${response.problemId}">Problem ID</td>
                 <td th:text="${response.problemTitle}">Problem Title</td>
-                <td th:text="${response.result}">Result</td>
+                <td th:utext="${response.result == '맞았습니다!!' ? '✅' : '❌'}"></td>
                 <td th:text="${response.userName}">Username</td>
                 <td>
-                    <a th:href="@{/codeAnalysis/{username}/{id}(username=${username}, id=${response.id})}">Details</a>
+                    <a th:href="@{/codeAnalysis/{id} (id=${response.id})}">➙</a>
                 </td>
             </tr>
             </tbody>

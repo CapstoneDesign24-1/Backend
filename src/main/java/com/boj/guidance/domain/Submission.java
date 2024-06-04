@@ -2,6 +2,7 @@
 package com.boj.guidance.domain;
 
 import com.boj.guidance.util.annotation.LockSerial;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class Submission {
     @Id
     @LockSerial
     private String id;
+    @Column(columnDefinition = "LONGTEXT")
     private String codeContent;
     private String userName;
     private String submitId;
