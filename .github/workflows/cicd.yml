@@ -92,15 +92,6 @@ jobs:
             sudo docker stop backend
             sudo docker rm backend
             sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance
-            export PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }}
-            export SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-            export SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
-            export SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
-            export SPRING_DATA_REDIS_HOST=${{ secrets.SPRING_DATA_REDIS_HOST }}
-            export SPRING_DATA_REDIS_PORT=${{ secrets.SPRING_DATA_REDIS_PORT }}
-            export SPRING_SESSION_REDIS_NAMESPACE=${{ secrets.SPRING_SESSION_REDIS_NAMESPACE }}
-            export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-            export DJANGO_SERVER_ADDRESS=${{ secrets.DJANGO_SERVER_ADDRESS }}
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance:latest
             sudo docker run -d --name backend -p 8080:8080 --network server ${{ secrets.DOCKERHUB_USERNAME }}/bojguidance \
               -e PASSWORD_ENCODER=${{ secrets.PASSWORD_ENCODER }} \
