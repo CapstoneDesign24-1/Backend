@@ -211,7 +211,7 @@
             });
 
             const gallery = document.querySelector('.gallery img'); // 갤러리 이미지 선택
-            if (closestEvent) {
+            if (closestEvent && gallery) { // gallery가 null이 아닌지 확인
                 const imgSrc = closestEvent.dataset.imgSrc;
                 gallery.src = imgSrc;
             }
