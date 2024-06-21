@@ -27,12 +27,13 @@ public enum ResponseCode {
     PASSWORD_ENCRYPT_FAIL(HttpStatus.CONFLICT, false, "암호화 실패"),
 
     // 코드 분석 관련 오류
-    CODEANALYSIS_FAIL(HttpStatus.NOT_FOUND, false, "SubmitId Not Found"),
+    CODE_ANALYSIS_FAIL(HttpStatus.NOT_FOUND, false, "SubmitId Not Found"),
   
     // 문제 관련 오류
     PROBLEM_FIND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 검색 실패"),
     PROBLEM_RECOMMEND_FAIL(HttpStatus.BAD_REQUEST, false, "문제 추천 실패"),
-  
+    SUBMISSION_FAIL(HttpStatus.BAD_REQUEST, false, "문제 제출 실패"),
+
     // Django 서버 관련 오류
     ANALYSIS_IMAGE_FAIL(HttpStatus.BAD_REQUEST, false, "분석 이미지 오류"),
     WEAK_ALGORITHM_FAIL(HttpStatus.BAD_REQUEST, false, "취약 알고리즘 오류"),

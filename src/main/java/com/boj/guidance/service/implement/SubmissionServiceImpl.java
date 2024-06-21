@@ -7,6 +7,8 @@ import com.boj.guidance.repository.CodeAnalysisRepository;
 import com.boj.guidance.repository.SubmissionRepository;
 import com.boj.guidance.service.SubmissionService;
 import com.boj.guidance.util.OpenAIClient;
+import com.boj.guidance.util.api.ResponseCode;
+import com.boj.guidance.util.exception.ProblemException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +57,7 @@ public class SubmissionServiceImpl implements SubmissionService {
             codeAnalysis = codeAnalysisRepository.save(codeAnalysis);
             return codeAnalysis;
         } catch (IOException e) {
-            throw new RuntimeException("Failed to save submission and code analysis", e);
+            throw new ProblemException(ResponseCode.SUBMISSION_FAIL);
         }
     }
 
