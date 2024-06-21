@@ -121,7 +121,7 @@ public class PageController {
                                         Model model) {
         String userName = (String) session.getAttribute("memberId");
         CodeAnalysis response = codeAnalysisRepository.findById(id).orElseThrow(
-                () -> new CodeAnalysisException(ResponseCode.CODEANALYSIS_FAIL)
+                () -> new CodeAnalysisException(ResponseCode.CODE_ANALYSIS_FAIL)
         );
 
         try {
@@ -134,7 +134,7 @@ public class PageController {
             model.addAttribute("memory", memory);
             model.addAttribute("suggest", suggest);
         } catch (IOException e) {
-            throw new CodeAnalysisException(ResponseCode.CODEANALYSIS_FAIL, e);
+            throw new CodeAnalysisException(ResponseCode.CODE_ANALYSIS_FAIL, e);
         }
 
         model.addAttribute("response", response);
