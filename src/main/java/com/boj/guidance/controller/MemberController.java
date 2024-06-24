@@ -23,9 +23,7 @@ public class MemberController {
      */
     @PostMapping("/join")
     public ApiResponse<MemberResponseDto> join(@RequestBody MemberJoinRequestDto dto) {
-        log.info("회원가입 API 호출");
         MemberResponseDto joined = memberService.join(dto);
-
         return ApiResponse.success(ResponseCode.USER_JOIN_SUCCESS.getMessage(), joined);
     }
 
@@ -34,13 +32,10 @@ public class MemberController {
      */
     @PostMapping("/login")
     public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto dto, final HttpServletRequest httpRequest) {
-        log.info("로그인 API 호출");
         MemberResponseDto login = memberService.login(dto);
-
         final HttpSession session = httpRequest.getSession();
         session.setAttribute("memberId", login.getHandle());
         session.setMaxInactiveInterval(3600);
-
         return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS.getMessage(), login);
     }
 
@@ -57,8 +52,6 @@ public class MemberController {
      */
     @PostMapping("/auth")
     public MemberAuthRequestDto authorize() {
-        log.info("인증 API 호출");
-
         return memberService.authorize();
     }
 
@@ -67,7 +60,6 @@ public class MemberController {
      */
     @PutMapping("/role/{id}")
     public ApiResponse<MemberResponseDto> changeRole(@PathVariable("id") String id) {
-        log.info("사용자 역할 변경 API");
         return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.changeRole(id));
     }
 
@@ -76,7 +68,6 @@ public class MemberController {
      */
     @PutMapping("/state/{id}")
     public ApiResponse<MemberResponseDto> changeState(@PathVariable("id") String id) {
-        log.info("사용자 스터디그룹 모집 상태 변경 API");
         return ApiResponse.success(ResponseCode.USER_STATE_CHANGE_SUCCESS.getMessage(), memberService.changeState(id));
     }
 
@@ -86,7 +77,6 @@ public class MemberController {
     @PutMapping("/weak/{id}")
     public ApiResponse<MemberResponseDto> updateWeakAlgorithm(@PathVariable("id") String id,
                                                               @RequestParam("weakAlgorithm") String weakAlgorithm) {
-        log.info("사용자 취약 알고리즘 업데이트 API");
         return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.updateWeakAlgorithm(id, weakAlgorithm));
     }
 

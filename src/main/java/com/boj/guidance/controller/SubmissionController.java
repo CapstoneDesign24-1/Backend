@@ -1,4 +1,3 @@
-// SubmissionController.java
 package com.boj.guidance.controller;
 
 import com.boj.guidance.domain.CodeAnalysis;

@@ -1,4 +1,3 @@
-// src/main/java/com/boj/guidance/controller/OpenAIController.java
 package com.boj.guidance.controller;
 
 import com.boj.guidance.service.OpenAIService;
@@ -16,12 +15,7 @@ public class OpenAIController {
     private final OpenAIService openAIService;
 
     @PostMapping("/analyze")
-    public String analyzeCode(@RequestBody String codeContent) {
-        try {
-            return openAIService.analyzeCode(codeContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error occurred while processing the request.";
-        }
+    public String analyzeCode(@RequestBody String codeContent) throws IOException {
+        return openAIService.analyzeCode(codeContent);
     }
 }

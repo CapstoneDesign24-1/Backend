@@ -28,12 +28,12 @@ public class CodeHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         list.add(session);
-        log.info("{} 클라이언트 접속", session);
+//        log.info("{} 클라이언트 접속", session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        log.info(session + " 클라이언트 접속 해제");
+//        log.info(session + " 클라이언트 접속 해제");
         list.remove(session);
     }
 

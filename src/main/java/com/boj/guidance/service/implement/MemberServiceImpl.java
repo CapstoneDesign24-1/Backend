@@ -2,7 +2,6 @@ package com.boj.guidance.service.implement;
 
 import com.boj.guidance.config.PasswordEncoder;
 import com.boj.guidance.domain.Member;
-import com.boj.guidance.domain.enumerate.StudyGroupState;
 import com.boj.guidance.dto.MemberDto.*;
 import com.boj.guidance.repository.MemberRepository;
 import com.boj.guidance.service.MemberService;
@@ -22,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service
