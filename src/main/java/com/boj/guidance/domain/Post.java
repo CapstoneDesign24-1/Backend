@@ -2,8 +2,7 @@ package com.boj.guidance.domain;
 
 import com.boj.guidance.domain.enumerate.PostType;
 import com.boj.guidance.util.annotation.LockSerial;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +24,7 @@ public class Post {
     private String createdAt;
     private String updatedAt;
     private Boolean isDeleted;
+    @Enumerated(EnumType.STRING)
     private PostType postType;
     private Integer likes;
 
