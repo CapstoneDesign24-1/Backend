@@ -7,17 +7,17 @@ import com.boj.guidance.repository.MemberRepository;
 import com.boj.guidance.repository.PostRepository;
 import com.boj.guidance.service.PostService;
 import com.boj.guidance.util.api.ResponseCode;
-import com.boj.guidance.util.exception.IdGeneratorException;
 import com.boj.guidance.util.exception.MemberException;
 import com.boj.guidance.util.exception.PostException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -57,6 +57,7 @@ public class PostServiceImpl implements PostService {
         try {
             if (!rLock.tryLock(1, 3, TimeUnit.SECONDS)) return;
             post.addLikes();
+            log.info("Likes Updated: {}", post.getLikes().toString());
         } catch (InterruptedException e) {
             throw new PostException(ResponseCode.POST_LIKES_UPDATE_FAIL);
         } finally {

@@ -16,7 +16,7 @@ public class PostResponseDto {
     String createdAt;
     String updatedAt;
     Boolean isDeleted;
-    String postType;
+    PostType postType;
     Integer likes;
 
     @Builder
@@ -38,7 +38,7 @@ public class PostResponseDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.isDeleted = isDeleted;
-        this.postType = postType.toString();
+        this.postType = postType;
         this.likes = likes;
     }
 

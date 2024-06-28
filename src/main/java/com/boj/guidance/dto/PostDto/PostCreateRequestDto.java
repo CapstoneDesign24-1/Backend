@@ -2,11 +2,13 @@ package com.boj.guidance.dto.PostDto;
 
 import com.boj.guidance.domain.Post;
 import com.boj.guidance.domain.enumerate.PostType;
+import lombok.Getter;
 
+@Getter
 public class PostCreateRequestDto {
-    String title;
-    String content;
-    PostType postType;
+    private String title;
+    private String content;
+    private PostType postType;
 
     public Post toEntity(String writer) {
         return Post.builder()
