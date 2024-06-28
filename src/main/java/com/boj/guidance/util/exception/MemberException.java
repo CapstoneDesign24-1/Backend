@@ -2,8 +2,8 @@ package com.boj.guidance.util.exception;
 
 import com.boj.guidance.util.api.ResponseCode;
 
-public class UserException extends BaseException {
-    public UserException(ResponseCode code) {
+public class MemberException extends BaseException {
+    public MemberException(ResponseCode code) {
         super(code);
     }
 }

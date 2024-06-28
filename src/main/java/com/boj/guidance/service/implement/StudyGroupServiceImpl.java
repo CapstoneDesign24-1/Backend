@@ -11,9 +11,9 @@ import com.boj.guidance.repository.ProblemRepository;
 import com.boj.guidance.repository.StudyGroupRepository;
 import com.boj.guidance.service.StudyGroupService;
 import com.boj.guidance.util.api.ResponseCode;
+import com.boj.guidance.util.exception.MemberException;
 import com.boj.guidance.util.exception.ProblemException;
 import com.boj.guidance.util.exception.StudyGroupException;
-import com.boj.guidance.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -104,7 +104,7 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 
     private Member getMember(String memberId) {
         return memberRepository.findById(memberId).orElseThrow(
-                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+                () -> new MemberException(ResponseCode.MEMBER_NOT_EXIST)
         );
     }
 
