@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,7 +20,6 @@ public class Post {
     @Id
     @LockSerial
     private String id;
-    private String writer;
     private String title;
     private String content;
     private String createdAt;
@@ -27,10 +28,15 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private PostType postType;
     private Integer likes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member writer;
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public Post(
-            String writer,
+            Member writer,
             String title,
             String content,
             PostType postType
@@ -57,6 +63,14 @@ public class Post {
 
     public void deleted() {
         this.isDeleted = Boolean.TRUE;
+    }
+
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+    }
+
+    public void delComment(Comment comment) {
+        this.commentList.remove(comment);
     }
 }
 

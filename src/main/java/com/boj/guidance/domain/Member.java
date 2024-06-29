@@ -8,6 +8,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -38,6 +40,10 @@ public class Member {
     private String weakAlgorithm;           // 취약 알고리즘
     @ManyToOne(fetch = FetchType.LAZY)
     private StudyGroup studyGroup;          // 가입한 스터디그룹
+    @OneToMany(mappedBy = "writer")
+    private List<Post> postList = new ArrayList<>();
+    @OneToMany(mappedBy = "writer")
+    private List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public Member(
@@ -96,6 +102,18 @@ public class Member {
         this.studyGroup = null;
         studyGroup.removeMember(this);
         stateUpdate();
+    }
+
+    public void addPost(Post post) {
+        this.postList.add(post);
+    }
+
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+    }
+
+    public void delComment(Comment comment) {
+        this.commentList.remove(comment);
     }
 
 }

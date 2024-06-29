@@ -57,4 +57,10 @@ public class GlobalExceptionHandler {
         return ApiResponse.fail(e.getCode(), null);
     }
 
+    @ExceptionHandler(CommentException.class)
+    public ApiResponse<Void> commentExceptionHandling(CommentException e) {
+        log.error("CommentException: {}", e.getMessage());
+        return ApiResponse.fail(e.getCode(), null);
+    }
+
 }
