@@ -32,6 +32,9 @@ public enum ResponseCode {
     POST_DELETE_FAIL(HttpStatus.BAD_REQUEST, false, "게시물 삭제 실패"),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, false, "게시물 조회 실패"),
     POST_LIKES_UPDATE_FAIL(HttpStatus.BAD_REQUEST, false, "좋아요 업데이트 실패"),
+    COMMENT_CREATE_FAIL(HttpStatus.BAD_REQUEST, false, "댓글 생성 실패"),
+    COMMENT_DELETE_FAIL(HttpStatus.BAD_REQUEST, false, "댓글 삭제 실패"),
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, false, "댓글 조회 실패"),
 
     // 코드 분석 관련 오류
     CODE_ANALYSIS_FAIL(HttpStatus.NOT_FOUND, false, "SubmitId Not Found"),
@@ -64,7 +67,10 @@ public enum ResponseCode {
     POST_UPDATE_SUCCESS(HttpStatus.OK, true, "게시물 업데이트 성공"),
     POST_DELETE_SUCCESS(HttpStatus.OK, true, "게시물 삭제 성공"),
     POST_RESPONSE_SUCCESS(HttpStatus.FOUND, true, "게시물 조회 성공"),
-    POST_LIKES_UPDATE_SUCCESS(HttpStatus.OK, true, "좋아요 업데이트 성공");
+    POST_LIKES_UPDATE_SUCCESS(HttpStatus.OK, true, "좋아요 업데이트 성공"),
+    COMMENT_CREATE_SUCCESS(HttpStatus.CREATED, true, "댓글 생성 성공"),
+    COMMENT_DELETE_SUCCESS(HttpStatus.OK, true, "댓글 삭제 성공"),
+    COMMENT_RESPONSE_SUCCESS(HttpStatus.FOUND, true, "댓글 조회 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;
