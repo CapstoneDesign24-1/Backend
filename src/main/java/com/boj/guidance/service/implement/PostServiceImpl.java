@@ -55,13 +55,13 @@ public class PostServiceImpl implements PostService {
         final RLock rLock = redissonClient.getLock(lockKey);
 
         try {
-            if (!rLock.tryLock(1, 3, TimeUnit.SECONDS)) return;
+            if (!rLock.tryLock(1, 3, TimeUnit.MILLISECONDS)) return;
             post.addLikes();
             log.info("Likes Updated: {}", post.getLikes().toString());
         } catch (InterruptedException e) {
             throw new PostException(ResponseCode.POST_LIKES_UPDATE_FAIL);
         } finally {
-            if (rLock.isLocked()) rLock.unlock();
+            if (rLock.isLocked() && rLock.isHeldByCurrentThread()) rLock.unlock();
         }
     }
 
