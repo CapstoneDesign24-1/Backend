@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserException.class)
-    public ApiResponse<Void> userExceptionHandling(UserException e) {
-        log.error("UserException: {}", e.getMessage());
+    @ExceptionHandler(MemberException.class)
+    public ApiResponse<Void> userExceptionHandling(MemberException e) {
+        log.error("MemberException: {}", e.getMessage());
         return ApiResponse.fail(e.getCode(), null);
     }
 
@@ -48,6 +48,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CodeAnalysisException.class)
     public ApiResponse<Void> codeAnalysisExceptionHandling(CodeAnalysisException e) {
         log.error("CodeAnalysisException: {}", e.getMessage());
+        return ApiResponse.fail(e.getCode(), null);
+    }
+
+    @ExceptionHandler(PostException.class)
+    public ApiResponse<Void> postExceptionHandling(PostException e) {
+        log.error("PostException: {}", e.getMessage());
         return ApiResponse.fail(e.getCode(), null);
     }
 

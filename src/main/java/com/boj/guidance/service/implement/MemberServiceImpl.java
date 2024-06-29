@@ -7,7 +7,7 @@ import com.boj.guidance.repository.MemberRepository;
 import com.boj.guidance.service.MemberService;
 import com.boj.guidance.util.api.ResponseCode;
 import com.boj.guidance.util.exception.DjangoException;
-import com.boj.guidance.util.exception.UserException;
+import com.boj.guidance.util.exception.MemberException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto join(MemberJoinRequestDto dto) {
         if (memberRepository.findByLoginId(dto.getLoginId()).isPresent()) { // 회원가입 하려는 사용자 id가 이미 존재하면 ERROR
-            throw new UserException(ResponseCode.USER_JOIN_FAIL);
+            throw new MemberException(ResponseCode.MEMBER_JOIN_FAIL);
         }
         Member saved = memberRepository.save(dto.toEntity(passwordEncoder.encrypt(dto.getLoginPassword())));
 
@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
                 dto.getLoginId(),
                 passwordEncoder.encrypt(dto.getLoginPassword())
         ).orElseThrow(
-                () -> new UserException(ResponseCode.USER_LOGIN_FAIL)
+                () -> new MemberException(ResponseCode.MEMBER_LOGIN_FAIL)
         );
         return new MemberResponseDto().toResponse(member);
     }
@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public WeakAlgorithmRequestDto init(String handle) {
         Member member = memberRepository.findByHandle(handle).orElseThrow(
-                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+                () -> new MemberException(ResponseCode.MEMBER_NOT_EXIST)
         );
         String apiUrl = ADDRESS + "/analysis/image/" + member.getHandle();
         RestTemplate restTemplate = new RestTemplate();
@@ -100,7 +100,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto changeRole(String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+                () -> new MemberException(ResponseCode.MEMBER_NOT_EXIST)
         );
         member.roleUpdate();
         return new MemberResponseDto().toResponse(memberRepository.save(member));
@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto changeState(String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+                () -> new MemberException(ResponseCode.MEMBER_NOT_EXIST)
         );
         member.stateUpdate();
         return new MemberResponseDto().toResponse(memberRepository.save(member));
@@ -120,7 +120,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto updateWeakAlgorithm(String handle, String algorithm) {
         Member member = memberRepository.findByHandle(handle).orElseThrow(
-                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+                () -> new MemberException(ResponseCode.MEMBER_NOT_EXIST)
         );
         member.setWeakAlgorithm(algorithm);
         return new MemberResponseDto().toResponse(memberRepository.save(member));

@@ -24,7 +24,7 @@ public class MemberController {
     @PostMapping("/join")
     public ApiResponse<MemberResponseDto> join(@RequestBody MemberJoinRequestDto dto) {
         MemberResponseDto joined = memberService.join(dto);
-        return ApiResponse.success(ResponseCode.USER_JOIN_SUCCESS.getMessage(), joined);
+        return ApiResponse.success(ResponseCode.MEMBER_JOIN_SUCCESS.getMessage(), joined);
     }
 
     /**
@@ -36,7 +36,7 @@ public class MemberController {
         final HttpSession session = httpRequest.getSession();
         session.setAttribute("memberId", login.getHandle());
         session.setMaxInactiveInterval(3600);
-        return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS.getMessage(), login);
+        return ApiResponse.success(ResponseCode.MEMBER_LOGIN_SUCCESS.getMessage(), login);
     }
 
     /**
@@ -44,7 +44,7 @@ public class MemberController {
      */
     @GetMapping("/init/{handle}")
     public ApiResponse<WeakAlgorithmRequestDto> init(@PathVariable("handle") String handle) {
-        return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.init(handle));
+        return ApiResponse.success(ResponseCode.MEMBER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.init(handle));
     }
 
     /**
@@ -60,7 +60,7 @@ public class MemberController {
      */
     @PutMapping("/role/{id}")
     public ApiResponse<MemberResponseDto> changeRole(@PathVariable("id") String id) {
-        return ApiResponse.success(ResponseCode.USER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.changeRole(id));
+        return ApiResponse.success(ResponseCode.MEMBER_ROLE_CHANGE_SUCCESS.getMessage(), memberService.changeRole(id));
     }
 
     /**
@@ -68,7 +68,7 @@ public class MemberController {
      */
     @PutMapping("/state/{id}")
     public ApiResponse<MemberResponseDto> changeState(@PathVariable("id") String id) {
-        return ApiResponse.success(ResponseCode.USER_STATE_CHANGE_SUCCESS.getMessage(), memberService.changeState(id));
+        return ApiResponse.success(ResponseCode.MEMBER_STATE_CHANGE_SUCCESS.getMessage(), memberService.changeState(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class MemberController {
     @PutMapping("/weak/{id}")
     public ApiResponse<MemberResponseDto> updateWeakAlgorithm(@PathVariable("id") String id,
                                                               @RequestParam("weakAlgorithm") String weakAlgorithm) {
-        return ApiResponse.success(ResponseCode.USER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.updateWeakAlgorithm(id, weakAlgorithm));
+        return ApiResponse.success(ResponseCode.MEMBER_WEAK_ALGORITHM_UPDATE_SUCCESS.getMessage(), memberService.updateWeakAlgorithm(id, weakAlgorithm));
     }
 
 }

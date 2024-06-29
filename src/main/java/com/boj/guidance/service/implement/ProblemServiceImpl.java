@@ -9,8 +9,8 @@ import com.boj.guidance.repository.ProblemRepository;
 import com.boj.guidance.service.ProblemService;
 import com.boj.guidance.util.api.ResponseCode;
 import com.boj.guidance.util.exception.DjangoException;
+import com.boj.guidance.util.exception.MemberException;
 import com.boj.guidance.util.exception.ProblemException;
-import com.boj.guidance.util.exception.UserException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,7 +74,7 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public ProblemsResponseDto recommendProblems(String handle) {
         Member member = memberRepository.findByHandle(handle).orElseThrow(
-                () -> new UserException(ResponseCode.USER_NOT_EXIST)
+                () -> new MemberException(ResponseCode.MEMBER_NOT_EXIST)
         );
         String apiUrl = ADDRESS + "/recommend/" + member.getHandle();
         RestTemplate restTemplate = new RestTemplate();
