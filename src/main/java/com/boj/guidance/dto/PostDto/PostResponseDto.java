@@ -1,5 +1,6 @@
 package com.boj.guidance.dto.PostDto;
 
+import com.boj.guidance.domain.Member;
 import com.boj.guidance.domain.Post;
 import com.boj.guidance.domain.enumerate.PostType;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class PostResponseDto {
     @Builder
     public PostResponseDto(
             String id,
-            String writer,
+            Member writer,
             String title,
             String content,
             String createdAt,
@@ -32,7 +33,7 @@ public class PostResponseDto {
             Integer likes
     ) {
         this.id = id;
-        this.writer = writer;
+        this.writer = writer.getHandle();
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;

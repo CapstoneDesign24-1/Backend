@@ -1,5 +1,6 @@
 package com.boj.guidance.dto.PostDto;
 
+import com.boj.guidance.domain.Member;
 import com.boj.guidance.domain.Post;
 import com.boj.guidance.domain.enumerate.PostType;
 import lombok.Getter;
@@ -10,7 +11,7 @@ public class PostCreateRequestDto {
     private String content;
     private PostType postType;
 
-    public Post toEntity(String writer) {
+    public Post toEntity(Member writer) {
         return Post.builder()
                 .writer(writer)
                 .title(this.title)
