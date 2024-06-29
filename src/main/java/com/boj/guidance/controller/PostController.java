@@ -23,7 +23,7 @@ public class PostController {
         return ApiResponse.success(ResponseCode.POST_CREATE_SUCCESS.getMessage(), postService.createPost(memberId, dto));
     }
 
-    @PutMapping("/likes/{postId}")
+    @GetMapping("/likes/{postId}")
     public void likes(@PathVariable("postId") String postId) {
         postService.updateLikes(postId);
     }
